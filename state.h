@@ -1,0 +1,16 @@
+#ifndef STATE_H
+#define STATE_H
+
+#include "control.h"
+
+// State machine
+typedef enum state { MOVE_ROCK, PLAYER_SELECT, IDLE, STOPWATCH_COUNTING, STOPWATCH_STOPPED } state;
+extern state currentState;
+
+// Dispatch functions
+void setState(state);
+void doStateTransition(button);
+void doStateAction(button);
+void doStateDraw();
+
+#endif // STATE_H
