@@ -26,8 +26,6 @@ const int LCD_ROWS = 2;
 LiquidCrystal *lcd = new LiquidCrystal(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
 button currentButton = NONE;
-unsigned long lastDrawMillis = 0;
-const unsigned long DRAW_INTERVAL_MS = 500;
 
 button getButton() {
   const int kp_val = analogRead(KP);
@@ -68,10 +66,6 @@ void loop() {
   }
   // Update time while stopwatch is counting
   if (currentState == STOPWATCH_COUNTING) {
-    unsigned long now = millis();
-    if ((now - lastDrawMillis) >= DRAW_INTERVAL_MS) {
-      lastDrawMillis = now;
       doStateDraw();
-    }
   }
 }

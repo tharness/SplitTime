@@ -4,6 +4,9 @@
 #include "data.h"
 #include "Arduino.h"
 
+static unsigned long lastDrawMillis = 0;
+static const unsigned long DRAW_INTERVAL_MS = 500;
+
 // Handler Functions
 
 void defaultDraw() {}
@@ -33,11 +36,15 @@ void drawStopped() {
 }
 
 void drawStopwatchCounting() {
-  // Clear old time
-  for (int i = 0; i < 4; i++) {
-    clearCharAt(i, 0);
+  unsigned long now = millis();
+  if ((now - lastDrawMillis) >= DRAW_INTERVAL_MS) {
+    lastDrawMillis = now;
+    // Clear old time
+    for (int i = 0; i < 4; i++) {
+      clearCharAt(i, 0);
+    }
+    lcd->setCursor(2, 0);
+    lcd->write(ROCK_ROTATIONS[currentRockRotation]);
+    currentRockRotation = (currentRockRotation + 1) % sizeof(ROCK_ROTATIONS)/sizeof(ROCK_ROTATIONS[0]);
   }
-  lcd->setCursor(2, 0);
-  lcd->write(ROCK_ROTATIONS[currentRockRotation]);
-  currentRockRotation = (currentRockRotation + 1) % sizeof(ROCK_ROTATIONS)/sizeof(ROCK_ROTATIONS[0]);
 }
