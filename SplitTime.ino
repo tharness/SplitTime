@@ -58,14 +58,10 @@ void loop() {
   button previousButton = currentButton;
   currentButton = getButton();
   if (previousButton != currentButton) {
-    state previousState = currentState;
-    int transitionHandled = doStateTransition(currentButton);
-    
-    if (currentState != previousState) {
-      // State changed - call entry action for new state, don't process button in new state
+    int stateChanged = doStateTransition(currentButton); 
+    if (stateChanged) {
       doStateEntry();
-    } else if (transitionHandled) {
-      // State didn't change - process button action
+    } else {
       doStateAction(currentButton);
     }
     doStateDraw();
