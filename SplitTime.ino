@@ -49,6 +49,7 @@ void setup() {
   lcd->begin(LCD_COLS, LCD_ROWS);
 
   setState(IDLE);
+  
   doStateDraw();
 }  
 
@@ -57,11 +58,17 @@ void loop() {
   button previousButton = currentButton;
   currentButton = getButton();
   if (previousButton != currentButton) {
-    int stateChanged = doStateTransition(currentButton);
-    if (stateChanged) {
+    state previousState = currentState;
+    int transitionHandled = doStateTransition(currentButton);
+    
+    if (currentState != previousState) {
+      // State changed - call entry action for new state, don't process button in new state
+      doStateEntry();
+    } else if (transitionHandled) {
+      // State didn't change - process button action
       doStateAction(currentButton);
-      doStateDraw();
     }
+    doStateDraw();
   }
   // Update time while stopwatch is counting
   if (currentState == STOPWATCH_COUNTING) {

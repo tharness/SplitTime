@@ -1,12 +1,14 @@
 #include "state.h"
 #include "transition.h"
 #include "action.h"
+#include "entry.h"
 #include "draw.h"
 
 state currentState;
 
 // Lookup table
 typedef struct {
+  void (*entry)();
   int (*transition)(button);
   void (*action)(button);
   void (*draw)();
@@ -15,17 +17,17 @@ typedef struct {
 StateHandlers getHandlersForState(state s) {
   switch(s) {
     case MOVE_ROCK: 
-      return { moveRockTransition, moveRock, drawRock };
+      return { defaultEntry, moveRockTransition, moveRock, drawRock };
     case PLAYER_SELECT: 
-      return { playerSelectTransition, selectPlayer, writePlayer };
+      return { defaultEntry, playerSelectTransition, selectPlayer, writePlayer };
     case IDLE:
-      return { stopwatchStoppedTransition, idleAction, drawStopped };
+      return { idleEntry, stopwatchStoppedTransition, defaultAction, drawStopped };
     case STOPWATCH_STOPPED:
-      return { stopwatchStoppedTransition, stopwatchStoppedAction, drawStopped };
+      return { stopwatchStoppedEntry, stopwatchStoppedTransition, defaultAction, drawStopped };
     case STOPWATCH_COUNTING:
-      return { stopwatchCountingTransition, stopwatchCountingAction, drawStopwatchCounting };
+      return { stopwatchCountingEntry, stopwatchCountingTransition, defaultAction, drawStopwatchCounting };
     default:
-      return { defaultTransition, defaultAction, defaultDraw };
+      return { defaultEntry, defaultTransition, defaultAction, defaultDraw };
   }
 }
 
@@ -35,6 +37,10 @@ void setState(state newState) {
 
 int doStateTransition(button b) {
   return getHandlersForState(currentState).transition(b);
+}
+
+void doStateEntry() {
+  getHandlersForState(currentState).entry();
 }
 
 void doStateAction(button b) {

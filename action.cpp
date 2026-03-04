@@ -1,5 +1,4 @@
 #include "action.h"
-#include "Arduino.h"
 #include "data.h"
 #include "registers.h"
 #include "control.h"
@@ -61,18 +60,3 @@ void moveRock(button b) {
       break;
   }
 }
-
-void idleAction(button) {
-  split = 0.0;
-}
-
-void stopwatchStoppedAction(button) {
-  unsigned long currentTime = millis();
-  split = (currentTime - stopwatchStartTime) / 1000.0;
-}
-
-void stopwatchCountingAction(button b) {
-  stopwatchStartTime = millis();
-  currentRockRotation = 0;
-}
-

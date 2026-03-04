@@ -3,13 +3,9 @@
 
 #include "control.h"
 
-// Handler functions
-
+// Action handlers (called when pressing button in current state)
 void defaultAction(button);
 void moveRock(button);
 void selectPlayer(button);
-void idleAction(button);
-void stopwatchStoppedAction(button);
-void stopwatchCountingAction(button);
 
 #endif // ACTION_H
