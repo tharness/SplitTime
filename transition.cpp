@@ -7,6 +7,7 @@ int defaultTransition(button b) {
 
 int moveRockTransition(button b) {
   if (b == SELECT) currentState = PLAYER_SELECT;
+  else if (b == UP || b == DOWN || b == LEFT || b == RIGHT) currentState = MOVE_ROCK;
   else return 0;
   
   return 1;
@@ -14,6 +15,7 @@ int moveRockTransition(button b) {
 
 int playerSelectTransition(button b) {
   if (b == SELECT) currentState = MOVE_ROCK;
+  else if (b == UP || b == DOWN) currentState = PLAYER_SELECT;
   else if (b == LEFT || b == RIGHT) currentState = IDLE;
   else return 0;
 
