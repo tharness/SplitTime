@@ -7,7 +7,7 @@ state currentState;
 
 // Lookup table
 typedef struct {
-  void (*transition)(button);
+  int (*transition)(button);
   void (*action)(button);
   void (*draw)();
 } StateHandlers;
@@ -33,8 +33,8 @@ void setState(state newState) {
   currentState = newState;
 }
 
-void doStateTransition(button b) {
-  getHandlersForState(currentState).transition(b);
+int doStateTransition(button b) {
+  return getHandlersForState(currentState).transition(b);
 }
 
 void doStateAction(button b) {

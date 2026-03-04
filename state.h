@@ -9,7 +9,7 @@ extern state currentState;
 
 // Dispatch functions
 void setState(state);
-void doStateTransition(button);
+int doStateTransition(button);
 void doStateAction(button);
 void doStateDraw();
 

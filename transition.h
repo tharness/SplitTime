@@ -3,10 +3,10 @@
 
 #include "control.h"
 
-void defaultTransition(button);
-void moveRockTransition(button);
-void playerSelectTransition(button);
-void stopwatchStoppedTransition(button);
-void stopwatchCountingTransition(button);
+int defaultTransition(button);
+int moveRockTransition(button);
+int playerSelectTransition(button);
+int stopwatchStoppedTransition(button);
+int stopwatchCountingTransition(button);
 
 #endif // TRANSITION_H

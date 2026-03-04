@@ -50,16 +50,18 @@ void setup() {
 
   setState(IDLE);
   doStateDraw();
-}
+}  
 
 void loop() {
   // only handle input if selection has changed to ignore holding
   button previousButton = currentButton;
   currentButton = getButton();
   if (previousButton != currentButton) {
-    doStateTransition(currentButton);
-    doStateAction(currentButton);
-    doStateDraw();
+    int stateChanged = doStateTransition(currentButton);
+    if (stateChanged) {
+      doStateAction(currentButton);
+      doStateDraw();
+    }
   }
   // Update time while stopwatch is counting
   if (currentState == STOPWATCH_COUNTING) {

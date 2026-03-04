@@ -1,22 +1,36 @@
 #include "transition.h"
 #include "state.h"
 
-void defaultTransition(button b) {}
+int defaultTransition(button b) { 
+  return 0;
+}
 
-void moveRockTransition(button b) {
+int moveRockTransition(button b) {
   if (b == SELECT) currentState = PLAYER_SELECT;
+  else return 0;
+  
+  return 1;
 }
 
-void playerSelectTransition(button b) {
+int playerSelectTransition(button b) {
   if (b == SELECT) currentState = MOVE_ROCK;
-  if (b == LEFT || b == RIGHT) currentState = IDLE;
+  else if (b == LEFT || b == RIGHT) currentState = IDLE;
+  else return 0;
+
+  return 1;
 }
 
-void stopwatchStoppedTransition(button b) {
+int stopwatchStoppedTransition(button b) {
   if (b == SELECT) currentState = STOPWATCH_COUNTING;
-  if (b == UP || b == DOWN || b == LEFT || b == RIGHT) currentState = PLAYER_SELECT;
+  else if (b == UP || b == DOWN || b == LEFT || b == RIGHT) currentState = PLAYER_SELECT;
+  else return 0;
+
+  return 1;
 }
 
-void stopwatchCountingTransition(button b) {
+int stopwatchCountingTransition(button b) {
   if (b == SELECT) currentState = STOPWATCH_STOPPED;
+  else return 0;
+
+  return 1;
 }
