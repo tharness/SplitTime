@@ -23,9 +23,21 @@ int defaultDraw() { return 0; }
 
 int drawPlayer() {
   int quarterScreen = OLED_WIDTH / 4;
-  int centerX = quarterScreen * currentPlayer;
-  oled.setCursor(centerX, 0);
+  int eigthScreen = OLED_WIDTH / 8;
+  
   oled.setTextSize(1);
+
+  if (currentPlayer == 0) {
+    oled.setCursor(0, 0);
+  }
+  else if (currentPlayer == 1 || currentPlayer == 2) {
+    int x = quarterScreen * currentPlayer + eigthScreen;
+    oledSetCursorToCenterTextX(PLAYERS[currentPlayer], x, 0);
+  }
+  else if (currentPlayer == 3) {
+    oledSetCursorToRightJustifyText(PLAYERS[currentPlayer], OLED_WIDTH, 0);
+  }
+
   oled.print(PLAYERS[currentPlayer]);
 
   return 1;

@@ -5,10 +5,9 @@
 
 // Helper functions
 
-static int getPlayerIndexByOffset(int offset) {
-  int playerCount = sizeof(PLAYERS)/sizeof(PLAYERS[0]);
+static int modPlayerIndex(int index) {
   // Handle negatives
-  return (((currentPlayer + offset) % playerCount) + playerCount) % playerCount;
+  return (((index) % 4) + 4) % 4;
 }
 
 // Handler functions
@@ -17,10 +16,10 @@ void defaultAction(button) {}
 void selectPlayer(button b) {
   switch (b) {
     case UP:
-      currentPlayer = getPlayerIndexByOffset(1);
+      currentPlayer = modPlayerIndex(currentPlayer + 1);
       break;
     case DOWN:
-      currentPlayer = getPlayerIndexByOffset(-1);
+      currentPlayer = modPlayerIndex(currentPlayer - 1);
       break;
     default:
       break;
