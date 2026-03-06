@@ -11,6 +11,7 @@ void defaultEntry() {}
 void stopwatchStoppedEntry() {
   unsigned long currentTime = millis();
   split = (currentTime - stopwatchStartTime) / 1000.0;
+  zonePrediction = 7;
 }
 
 void stopwatchCountingEntry() {

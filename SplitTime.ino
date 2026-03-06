@@ -1,4 +1,8 @@
 #include <LiquidCrystal.h>
+
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
 #include "display.h"
 #include "state.h"
 #include "control.h"
@@ -25,6 +29,11 @@ const int LCD_COLS = 16;
 const int LCD_ROWS = 2;
 LiquidCrystal *lcd = new LiquidCrystal(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
+// OLED display
+const int OLED_WIDTH = 128;
+const int OLED_HEIGHT = 64;
+Adafruit_SSD1306 oled(OLED_WIDTH, OLED_HEIGHT);
+
 button currentButton = NONE;
 
 button getButton() {
@@ -45,9 +54,15 @@ void setup() {
   lcd->createChar(ROCK_CHAR_270, ROCK_DATA_270);
 
   lcd->begin(LCD_COLS, LCD_ROWS);
+  
+  // OLED setup
+  oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  oled.clearDisplay();
+  oled.display();
+  oled.setTextColor(SSD1306_WHITE);
 
   setState(IDLE);
-  
+
   doStateDraw();
 }  
 

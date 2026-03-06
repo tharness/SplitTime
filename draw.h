@@ -1,12 +1,16 @@
 #ifndef DRAW_H
 #define DRAW_H
 
+void initDraw();
+void flushDraw();
+
 // Handler Functions
 
-void defaultDraw();
-void writePlayer();
-void drawRock();
-void drawStopped();
-void drawStopwatchCounting();
+int defaultDraw();
+int drawPlayer();
+int drawRock();
+int drawIdle();
+int drawStopped();
+int drawStopwatchCounting();
 
 #endif // DRAW_H

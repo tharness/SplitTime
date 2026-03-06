@@ -13,5 +13,8 @@ extern int currentRockRotation;
 
 extern unsigned long stopwatchStartTime;
 extern float split;
+extern int zonePrediction;
+// -1 indicates lower than recorded data, , 1 greater, 0 real prediction
+extern int zoneFlag;
 
 #endif // REGISTERS_H

@@ -11,7 +11,7 @@ typedef struct {
   void (*entry)();
   int (*transition)(button);
   void (*action)(button);
-  void (*draw)();
+  int (*draw)();
 } StateHandlers;
 
 StateHandlers getHandlersForState(state s) {
@@ -19,9 +19,9 @@ StateHandlers getHandlersForState(state s) {
     case MOVE_ROCK: 
       return { defaultEntry, moveRockTransition, moveRock, drawRock };
     case PLAYER_SELECT: 
-      return { defaultEntry, playerSelectTransition, selectPlayer, writePlayer };
+      return { defaultEntry, playerSelectTransition, selectPlayer, drawPlayer };
     case IDLE:
-      return { idleEntry, stopwatchStoppedTransition, defaultAction, drawStopped };
+      return { idleEntry, stopwatchStoppedTransition, defaultAction, drawIdle };
     case STOPWATCH_STOPPED:
       return { stopwatchStoppedEntry, stopwatchStoppedTransition, defaultAction, drawStopped };
     case STOPWATCH_COUNTING:
@@ -48,5 +48,9 @@ void doStateAction(button b) {
 }
 
 void doStateDraw() {
-  getHandlersForState(currentState).draw();
+  initDraw();
+  int doFlush = getHandlersForState(currentState).draw();
+  if (doFlush) {
+     flushDraw();
+  }
 }
