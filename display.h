@@ -16,4 +16,7 @@ void oledSetCursorToCenterTextX(const char* text, int centerX, int y);
 void oledSetCursorToRightJustifyText(const String& text, int rightX, int y);
 void oledSetCursorToRightJustifyText(const char* text, int rightX, int y);
 
+void oledSetCursorToBottomJustifyText(const String& text, int x, int bottomY);
+void oledSetCursorToBottomJustifyText(const char* text, int x, int bottomY);
+
 #endif // DISPLAY_H

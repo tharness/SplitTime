@@ -16,12 +16,10 @@ typedef struct {
 
 StateHandlers getHandlersForState(state s) {
   switch(s) {
-    case PLAYER_SELECT: 
-      return { defaultEntry, playerSelectTransition, selectPlayer, drawPlayer };
     case IDLE:
-      return { idleEntry, stopwatchStoppedTransition, defaultAction, drawIdle };
+      return { idleEntry, idleTransition, selectPlayer, drawIdle };
     case STOPWATCH_STOPPED:
-      return { stopwatchStoppedEntry, stopwatchStoppedTransition, defaultAction, drawStopped };
+      return { stopwatchStoppedEntry, stopwatchStoppedTransition, selectZone, drawStopped };
     case STOPWATCH_COUNTING:
       return { stopwatchCountingEntry, stopwatchCountingTransition, defaultAction, drawStopwatchCounting };
     default:

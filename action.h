@@ -6,5 +6,6 @@
 // Action handlers (called when pressing button in current state)
 void defaultAction(button);
 void selectPlayer(button);
+void selectZone(button);
 
 #endif // ACTION_H

@@ -47,7 +47,7 @@ int drawIdle() {
   drawPlayer();
 
   String splitString = String(split, 2);
-  oled.setTextSize(2);
+  oled.setTextSize(3);
 
   int centerX = OLED_WIDTH / 2;
   int centerY = OLED_HEIGHT / 2;
@@ -62,30 +62,45 @@ int drawStopped() {
   drawPlayer();
 
   String splitString = String(split, 2);
-  oled.setTextSize(2);
+  oled.setTextSize(3);
   int centerX = OLED_WIDTH / 2;
   int centerY = OLED_HEIGHT / 2;
   oledSetCursorToCenterText(splitString, centerX, centerY);
   oled.print(splitString);
 
   // print zone prediction
-  oledSetCursorToCenterText("_", centerX, centerY + 20);
-  if (zonePrediction < 1)
+  String zoneText;
+  // no data
+  if (zone < 0)
   {
-    oled.print("_");
+    zoneText = "_";
   }
+  // real prediction/input
   else if (zoneFlag == 0) {
-    // real prediction
-    oled.print(zonePrediction);
-  } else if (zoneFlag < 0) {
-    // lower than recorded data
-    oled.print("< ");
-    oled.print(zonePrediction);
-  } else if (zoneFlag == 1) {
-    // greater than recorded data
-    oled.print("> ");
-    oled.print(zonePrediction);
+    // zone 0 and 11 come from user input
+    if (zone == 0) {
+      zoneText = "HOG";
+    } else if (zone == 11) {
+      zoneText = "THROUGH";
+    } else {
+      zoneText = String(zone);
+    }
   }
+  // lower than any recorded zone
+  else if (zoneFlag < 0) {
+    zoneText = "< " + String(zone);
+  } 
+  // greater than any recorded zone
+  else if (zoneFlag == 1) {
+    zoneText = "> " + String(zone);
+  }
+
+  oled.setTextSize(2);
+  oledSetCursorToCenterText(zoneText, centerX, 0);
+  int x = oled.getCursorX();
+  oledSetCursorToBottomJustifyText(zoneText, x, OLED_HEIGHT);
+  int y = oled.getCursorY();
+  oled.print(zoneText);
 
   return 1;
 }
@@ -98,7 +113,7 @@ int drawStopwatchCounting() {
     stopwatchLastDrawMillis = now;
 
     String elapsed = String((now - stopwatchStartTime) / 1000.0, 2);
-    oled.setTextSize(2);
+    oled.setTextSize(3);
 
     int centerX = OLED_WIDTH / 2;
     int centerY = OLED_HEIGHT / 2;

@@ -5,17 +5,15 @@ int defaultTransition(button b) {
   return 0;
 }
 
-int playerSelectTransition(button b) {
-  if (b == SELECT) currentState = IDLE;
-  else if (b == LEFT || b == RIGHT) currentState = IDLE;
+int idleTransition(button b) {
+  if (b == SELECT) currentState = STOPWATCH_COUNTING;
   else return 0;
 
   return 1;
 }
 
 int stopwatchStoppedTransition(button b) {
-  if (b == SELECT) currentState = STOPWATCH_COUNTING;
-  else if (b == UP || b == DOWN || b == LEFT || b == RIGHT) currentState = PLAYER_SELECT;
+  if (b == SELECT) currentState = IDLE;
   else return 0;
 
   return 1;

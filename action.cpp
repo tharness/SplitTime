@@ -4,10 +4,9 @@
 #include "control.h"
 
 // Helper functions
-
-static int modPlayerIndex(int index) {
+static int mod(int a, int b) {
   // Handle negatives
-  return (((index) % 4) + 4) % 4;
+  return ((a % b) + b) % b;
 }
 
 // Handler functions
@@ -16,10 +15,25 @@ void defaultAction(button) {}
 void selectPlayer(button b) {
   switch (b) {
     case UP:
-      currentPlayer = modPlayerIndex(currentPlayer + 1);
+      currentPlayer = mod(currentPlayer + 1, 4);
       break;
     case DOWN:
-      currentPlayer = modPlayerIndex(currentPlayer - 1);
+      currentPlayer = mod(currentPlayer - 1, 4);
+      break;
+    default:
+      break;
+  }
+}
+
+void selectZone(button b) {
+  switch (b) {
+    case UP:
+      zone = mod(zone + 1, 12);
+      zoneFlag = 0;
+      break;
+    case DOWN:
+      zone = mod(zone - 1, 12);
+      zoneFlag = 0;
       break;
     default:
       break;

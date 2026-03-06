@@ -33,3 +33,14 @@ void oledSetCursorToRightJustifyText(const char* text, int rightX, int y) {
   int textX = rightX - w;
   oled.setCursor(textX, y);
 }
+
+void oledSetCursorToBottomJustifyText(const String& text, int x, int bottomY) {
+  oledSetCursorToBottomJustifyText(text.c_str(), x, bottomY);
+}
+
+void oledSetCursorToBottomJustifyText(const char* text, int x, int bottomY) {
+  int w, h;
+  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
+  int textY = bottomY - h;
+  oled.setCursor(x, textY);
+}
