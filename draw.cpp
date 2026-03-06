@@ -4,10 +4,11 @@
 #include "data.h"
 #include "Arduino.h"
 
-static unsigned long lastDrawMillis = 0;
-static const unsigned long DRAW_INTERVAL_MS = 500;
+static unsigned long cursorLastDrawMillis = 0;
+static const unsigned long CURSOR_DRAW_INTERVAL_MS = 500;
 static unsigned long stopwatchLastDrawMillis = 0;
 static const unsigned long STOPWATCH_DRAW_INTERVAL_MS = 10;
+static int lastDrawnZone = -1;
 
 void initDraw() {
   oled.clearDisplay();
@@ -61,6 +62,10 @@ int drawIdle() {
 int drawStopped() {
   drawPlayer();
 
+  int redraw = lastDrawnZone != zone;
+  lastDrawnZone = zone;
+  
+  // print split time
   String splitString = String(split, 2);
   oled.setTextSize(3);
   int centerX = OLED_WIDTH / 2;
@@ -98,18 +103,34 @@ int drawStopped() {
   oled.setTextSize(2);
   oledSetCursorToCenterText(zoneText, centerX, 0);
   int x = oled.getCursorX();
-  oledSetCursorToBottomJustifyText(zoneText, x, OLED_HEIGHT);
+  // leave room for cursor below
+  oledSetCursorToBottomJustifyText(zoneText, x, OLED_HEIGHT - 2);
   int y = oled.getCursorY();
   oled.print(zoneText);
+  
+  // animated cursor for zone selection
+  unsigned long now = millis();
+  if ((now - cursorLastDrawMillis) >= CURSOR_DRAW_INTERVAL_MS) {
+    cursorLastDrawMillis = now;
+    if (zoneCursor) {
+      int w;
+      oled.getTextBounds(zoneText, 0, 0, NULL, NULL, &w, NULL);
+      int x = OLED_WIDTH / 2 - w / 2;
+      oled.writeFastHLine(x, OLED_HEIGHT - 1, w, 1);
+    }
+    zoneCursor = !zoneCursor;
+    redraw = 1;
+  }
 
-  return 1;
+  return redraw;
 }
 
 int drawStopwatchCounting() {
-  drawPlayer();
   unsigned long now = millis();
 
   if ((now - stopwatchLastDrawMillis) >= STOPWATCH_DRAW_INTERVAL_MS) {
+    drawPlayer();
+
     stopwatchLastDrawMillis = now;
 
     String elapsed = String((now - stopwatchStartTime) / 1000.0, 2);

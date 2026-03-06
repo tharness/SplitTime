@@ -16,5 +16,6 @@ extern float split;
 extern int zone;
 // -1 indicates lower than recorded data, , 1 greater, 0 real prediction
 extern int zoneFlag;
+extern int zoneCursor;
 
 #endif // REGISTERS_H

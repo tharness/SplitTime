@@ -16,3 +16,4 @@ float split = 0.0;
 int zone = -1;
 // -1 indicates lower than recorded data, , 1 greater, 0 real prediction
 int zoneFlag = 0;
+int zoneCursor = 0;

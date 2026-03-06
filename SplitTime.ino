@@ -55,8 +55,7 @@ void loop() {
     }
     doStateDraw();
   }
-  // Update time while stopwatch is counting
-  if (currentState == STOPWATCH_COUNTING) {
-      doStateDraw();
+  if (currentState == STOPWATCH_COUNTING || currentState == STOPWATCH_STOPPED) {
+    doStateDraw();
   }
 }

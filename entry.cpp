@@ -9,8 +9,11 @@ void idleEntry() {
 void defaultEntry() {}
 
 void stopwatchStoppedEntry() {
+  zoneCursor = 0;
+
   unsigned long currentTime = millis();
   split = (currentTime - stopwatchStartTime) / 1000.0;
+  // replace with zone prediction logic
   zone = 7;
 }
 
