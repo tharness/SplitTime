@@ -16,8 +16,6 @@ typedef struct {
 
 StateHandlers getHandlersForState(state s) {
   switch(s) {
-    case MOVE_ROCK: 
-      return { defaultEntry, moveRockTransition, moveRock, drawRock };
     case PLAYER_SELECT: 
       return { defaultEntry, playerSelectTransition, selectPlayer, drawPlayer };
     case IDLE:

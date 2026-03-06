@@ -4,7 +4,7 @@
 #include "control.h"
 
 // State machine
-typedef enum state { MOVE_ROCK, PLAYER_SELECT, IDLE, STOPWATCH_COUNTING, STOPWATCH_STOPPED } state;
+typedef enum state { PLAYER_SELECT, IDLE, STOPWATCH_COUNTING, STOPWATCH_STOPPED } state;
 extern state currentState;
 
 // Dispatch functions

@@ -4,7 +4,6 @@
 #include "control.h"
 
 int defaultTransition(button);
-int moveRockTransition(button);
 int playerSelectTransition(button);
 int stopwatchStoppedTransition(button);
 int stopwatchCountingTransition(button);

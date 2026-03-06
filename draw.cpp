@@ -22,13 +22,6 @@ void flushDraw() {
 int defaultDraw() { return 0; }
 
 int drawPlayer() {
-  // Clear 6 chars (max player name length) on bottom of screen
-  for (int i = 0; i < 6; i++) {
-    lcdClearCharAt(i, 1);
-  }
-  lcd->setCursor(0, 1);
-  lcd->print(PLAYERS[currentPlayer]);
-
   int quarterScreen = OLED_WIDTH / 4;
   int centerX = quarterScreen * currentPlayer;
   oled.setCursor(centerX, 0);
@@ -36,12 +29,6 @@ int drawPlayer() {
   oled.print(PLAYERS[currentPlayer]);
 
   return 1;
-}
-
-int drawRock() {
-  lcdClearCharAt(oldRockX, oldRockY);
-  lcd->setCursor(rockX, rockY);
-  lcd->write(ROCK_CHAR);
 }
 
 int drawIdle() {
@@ -95,19 +82,6 @@ int drawStopwatchCounting() {
   drawPlayer();
   unsigned long now = millis();
 
-  // LCD
-  if ((now - lastDrawMillis) >= DRAW_INTERVAL_MS) {
-    lastDrawMillis = now;
-    // Clear old time
-    for (int i = 0; i < 4; i++) {
-      lcdClearCharAt(i, 0);
-    }
-    lcd->setCursor(2, 0);
-    lcd->write(ROCK_ROTATIONS[currentRockRotation]);
-    currentRockRotation = (currentRockRotation + 1) % sizeof(ROCK_ROTATIONS)/sizeof(ROCK_ROTATIONS[0]);
-  }
-
-  // OLED
   if ((now - stopwatchLastDrawMillis) >= STOPWATCH_DRAW_INTERVAL_MS) {
     stopwatchLastDrawMillis = now;
 

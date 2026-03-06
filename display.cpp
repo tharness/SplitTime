@@ -1,11 +1,5 @@
 #include "display.h"
 
-void lcdClearCharAt(int col, int row) {
-  lcd->setCursor(col, row);
-  // Blank Character
-  lcd->write(0b00010000);
-}
-
 void oledSetCursorToCenterText(const String& text, int centerX, int centerY) {
   oledSetCursorToCenterText(text.c_str(), centerX, centerY);
 }

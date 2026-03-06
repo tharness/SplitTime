@@ -5,15 +5,8 @@ int defaultTransition(button b) {
   return 0;
 }
 
-int moveRockTransition(button b) {
-  if (b == SELECT) currentState = PLAYER_SELECT;
-  else return 0;
-  
-  return 1;
-}
-
 int playerSelectTransition(button b) {
-  if (b == SELECT) currentState = MOVE_ROCK;
+  if (b == SELECT) currentState = IDLE;
   else if (b == LEFT || b == RIGHT) currentState = IDLE;
   else return 0;
 

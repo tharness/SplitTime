@@ -8,7 +8,6 @@ void flushDraw();
 
 int defaultDraw();
 int drawPlayer();
-int drawRock();
 int drawIdle();
 int drawStopped();
 int drawStopwatchCounting();

@@ -5,7 +5,6 @@
 
 // Action handlers (called when pressing button in current state)
 void defaultAction(button);
-void moveRock(button);
 void selectPlayer(button);
 
 #endif // ACTION_H

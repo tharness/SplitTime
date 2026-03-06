@@ -1,5 +1,3 @@
-#include <LiquidCrystal.h>
-
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
@@ -8,26 +6,10 @@
 #include "control.h"
 #include "data.h"
 
-// KP Keypad constants
-const int KP = A0; // PIN
-// Floor values for each button
-const int KP_NONE = 800;
-const int KP_SELECT = 700;
-const int KP_LEFT = 450;
-const int KP_DOWN = 300;
-const int KP_UP = 100;
-const int KP_RIGHT = 0;
-
-// LCD
-const int LCD_RS = 8;
-const int LCD_E = 9;
-const int LCD_D4 = 4;
-const int LCD_D5 = 5;
-const int LCD_D6 = 6;
-const int LCD_D7 = 7;
-const int LCD_COLS = 16;
-const int LCD_ROWS = 2;
-LiquidCrystal *lcd = new LiquidCrystal(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+// Button pin constants
+const int B_SELECT = 51;
+const int B_UP = 47;
+const int B_DOWN = 43;
 
 // OLED display
 const int OLED_WIDTH = 128;
@@ -37,29 +19,23 @@ Adafruit_SSD1306 oled(OLED_WIDTH, OLED_HEIGHT);
 button currentButton = NONE;
 
 button getButton() {
-  const int kp_val = analogRead(KP);
-  if (kp_val > KP_NONE) return NONE;
-  if (kp_val > KP_SELECT) return SELECT;
-  if (kp_val > KP_LEFT) return LEFT;
-  if (kp_val > KP_DOWN) return DOWN;
-  if (kp_val > KP_UP) return UP;
-  if (kp_val > KP_RIGHT) return RIGHT;
+  if (digitalRead(B_SELECT) == LOW) return SELECT;
+  if (digitalRead(B_UP) == LOW) return UP;
+  if (digitalRead(B_DOWN) == LOW) return DOWN;
+  return NONE;
 }
 
 void setup() {
-  // LCD setup
-  lcd->createChar(ROCK_CHAR, ROCK_DATA);
-  lcd->createChar(ROCK_CHAR_90, ROCK_DATA_90);
-  lcd->createChar(ROCK_CHAR_180, ROCK_DATA_180);
-  lcd->createChar(ROCK_CHAR_270, ROCK_DATA_270);
-
-  lcd->begin(LCD_COLS, LCD_ROWS);
-  
   // OLED setup
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   oled.clearDisplay();
   oled.display();
   oled.setTextColor(SSD1306_WHITE);
+
+  // Input setup
+  pinMode(B_SELECT, INPUT_PULLUP);
+  pinMode(B_UP, INPUT_PULLUP);
+  pinMode(B_DOWN, INPUT_PULLUP);
 
   setState(IDLE);
 
