@@ -43,14 +43,41 @@ void drawPlayer() {
 }
 
 void drawStopWatchIcon() {
-  // watch face
-  oled.drawCircle(5, OLED_HEIGHT/2, 5, SSD1306_WHITE);
-  // watch hand
-  oled.drawLine(5, OLED_HEIGHT/2, 0, OLED_HEIGHT/2 - 8, SSD1306_WHITE);
+  int radius = 6;
+  int x = radius;
+  int y = OLED_HEIGHT/2;
+
+  // outline
+  oled.drawCircle(x, y, radius, SSD1306_WHITE);
+  // left button
+  oled.drawLine(0, y - radius, 2, y - radius + 2, SSD1306_WHITE);
+  // top button
+  oled.drawLine(x, y - radius - 2, x, y - radius, SSD1306_WHITE);
+  // needle
+  oled.drawLine(x, y, x + radius - 4, y - radius + 2, SSD1306_WHITE);
 }
 
 void drawZoneIcon() {
-  oled.drawRect(122, 10, 5, OLED_HEIGHT - 20, SSD1306_WHITE);
+  int iceWidth = 17;
+  int iceLeft = OLED_WIDTH - iceWidth;
+  int iceRight = OLED_WIDTH - 1;
+  int iceBottom = OLED_HEIGHT - 10 - 1;
+  int radius = iceWidth / 2;
+  int houseCenterY = iceBottom;
+  int houseCenterX = iceLeft + radius;
+
+  // ice outline
+  oled.drawRect(iceLeft, 10, iceWidth, iceBottom, SSD1306_WHITE);
+  // erace top line of ice
+  oled.drawLine(iceLeft, 10, iceRight, 10, SSD1306_BLACK);
+  // hog line
+  oled.drawLine(iceLeft, 20, iceRight, 20, SSD1306_WHITE);
+
+  //house
+  oled.drawCircle(houseCenterX, houseCenterY, radius, SSD1306_WHITE);
+  oled.fillCircle(houseCenterX, houseCenterY, radius / 2, SSD1306_WHITE);
+  oled.fillCircle(houseCenterX, houseCenterY, radius / 4, SSD1306_BLACK);
+  oled.fillCircle(houseCenterX, houseCenterY, radius / 8, SSD1306_WHITE);
 }
 
 int drawIdle() {
