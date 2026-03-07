@@ -63,8 +63,10 @@ int drawStopped() {
   drawPlayer();
 
   int redraw = lastDrawnZone != zone;
-  lastDrawnZone = zone;
-  
+  if (redraw) {
+    lastDrawnZone = zone;
+  }
+
   // print split time
   String splitString = String(split, 2);
   oled.setTextSize(3);
@@ -123,6 +125,10 @@ int drawStopped() {
   }
 
   return redraw;
+}
+
+int drawSplitPredict() {
+  return drawStopped();
 }
 
 int drawStopwatchCounting() {

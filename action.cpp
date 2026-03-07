@@ -39,3 +39,8 @@ void selectZone(button b) {
       break;
   }
 }
+
+void predictSplit(button b) {
+  selectZone(b);
+  split = zone / 2.0;
+}

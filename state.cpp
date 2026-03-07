@@ -22,6 +22,8 @@ StateHandlers getHandlersForState(state s) {
       return { stopwatchStoppedEntry, stopwatchStoppedTransition, selectZone, drawStopped };
     case STOPWATCH_COUNTING:
       return { stopwatchCountingEntry, stopwatchCountingTransition, defaultAction, drawStopwatchCounting };
+    case SPLIT_PREDICT:
+      return { splitPredictEntry, splitPredictTransition, predictSplit, drawSplitPredict };
     default:
       return { defaultEntry, defaultTransition, defaultAction, defaultDraw };
   }
@@ -48,5 +50,13 @@ void doStateDraw() {
   int doFlush = getHandlersForState(currentState).draw();
   if (doFlush) {
      flushDraw();
+  }
+}
+
+void doStateAnimate() {
+  if (currentState == STOPWATCH_COUNTING ||
+      currentState == STOPWATCH_STOPPED || 
+      currentState == SPLIT_PREDICT) {
+    doStateDraw();
   }
 }

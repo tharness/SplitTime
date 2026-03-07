@@ -6,5 +6,6 @@ void defaultEntry();
 void idleEntry();
 void stopwatchStoppedEntry();
 void stopwatchCountingEntry();
+void splitPredictEntry();
 
 #endif // ENTRY_H

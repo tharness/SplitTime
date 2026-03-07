@@ -7,6 +7,7 @@ int defaultTransition(button b) {
 
 int idleTransition(button b) {
   if (b == SELECT) currentState = STOPWATCH_COUNTING;
+  else if (b == CANCEL) currentState = SPLIT_PREDICT;
   else return 0;
 
   return 1;
@@ -14,6 +15,7 @@ int idleTransition(button b) {
 
 int stopwatchStoppedTransition(button b) {
   if (b == SELECT) currentState = IDLE;
+  else if (b == CANCEL) currentState = IDLE;
   else return 0;
 
   return 1;
@@ -21,6 +23,15 @@ int stopwatchStoppedTransition(button b) {
 
 int stopwatchCountingTransition(button b) {
   if (b == SELECT) currentState = STOPWATCH_STOPPED;
+  else if (b == CANCEL) currentState = STOPWATCH_STOPPED;
+  else return 0;
+
+  return 1;
+}
+
+int splitPredictTransition(button b) {
+  if (b == SELECT) currentState = STOPWATCH_COUNTING;
+  else if (b == CANCEL) currentState = IDLE;
   else return 0;
 
   return 1;

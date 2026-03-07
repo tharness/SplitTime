@@ -7,5 +7,6 @@ int defaultTransition(button);
 int idleTransition(button);
 int stopwatchStoppedTransition(button);
 int stopwatchCountingTransition(button);
+int splitPredictTransition(button);
 
 #endif // TRANSITION_H

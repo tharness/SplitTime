@@ -10,6 +10,7 @@ int defaultDraw();
 int drawPlayer();
 int drawIdle();
 int drawStopped();
+int drawSplitPredict();
 int drawStopwatchCounting();
 
 #endif // DRAW_H

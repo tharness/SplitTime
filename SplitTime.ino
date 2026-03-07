@@ -10,6 +10,7 @@
 const int B_SELECT = 51;
 const int B_UP = 47;
 const int B_DOWN = 43;
+const int B_CANCEL = 39;
 
 // OLED display
 const int OLED_WIDTH = 128;
@@ -22,6 +23,7 @@ button getButton() {
   if (digitalRead(B_SELECT) == LOW) return SELECT;
   if (digitalRead(B_UP) == LOW) return UP;
   if (digitalRead(B_DOWN) == LOW) return DOWN;
+  if (digitalRead(B_CANCEL) == LOW) return CANCEL;
   return NONE;
 }
 
@@ -36,6 +38,7 @@ void setup() {
   pinMode(B_SELECT, INPUT_PULLUP);
   pinMode(B_UP, INPUT_PULLUP);
   pinMode(B_DOWN, INPUT_PULLUP);
+  pinMode(B_CANCEL, INPUT_PULLUP);
 
   setState(IDLE);
 
@@ -55,7 +58,5 @@ void loop() {
     }
     doStateDraw();
   }
-  if (currentState == STOPWATCH_COUNTING || currentState == STOPWATCH_STOPPED) {
-    doStateDraw();
-  }
+  doStateAnimate();
 }

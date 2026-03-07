@@ -21,3 +21,13 @@ void stopwatchCountingEntry() {
   stopwatchStartTime = millis();
   currentRockRotation = 0;
 }
+
+void splitPredictEntry() {
+  zoneCursor = 0;
+
+  // default selected zone
+  zone = 7;
+
+  // replace with zone prediction logic
+  split = zone / 2.0;
+}

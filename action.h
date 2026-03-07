@@ -7,5 +7,6 @@
 void defaultAction(button);
 void selectPlayer(button);
 void selectZone(button);
+void predictSplit(button);
 
 #endif // ACTION_H
