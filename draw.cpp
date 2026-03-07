@@ -22,7 +22,7 @@ void flushDraw() {
 
 int defaultDraw() { return 0; }
 
-int drawPlayer() {
+void drawPlayer() {
   int quarterScreen = OLED_WIDTH / 4;
   int eigthScreen = OLED_WIDTH / 8;
   
@@ -40,12 +40,22 @@ int drawPlayer() {
   }
 
   oled.print(PLAYERS[currentPlayer]);
+}
 
-  return 1;
+void drawStopWatchIcon() {
+  // watch face
+  oled.drawCircle(5, OLED_HEIGHT/2, 5, SSD1306_WHITE);
+  // watch hand
+  oled.drawLine(5, OLED_HEIGHT/2, 0, OLED_HEIGHT/2 - 8, SSD1306_WHITE);
+}
+
+void drawZoneIcon() {
+  oled.drawRect(122, 10, 5, OLED_HEIGHT - 20, SSD1306_WHITE);
 }
 
 int drawIdle() {
   drawPlayer();
+  drawStopWatchIcon();
 
   String splitString = String(split, 2);
   oled.setTextSize(3);
@@ -59,9 +69,7 @@ int drawIdle() {
   return 1;
 }
 
-int drawStopped() {
-  drawPlayer();
-
+int drawZoneSelect() {
   int redraw = lastDrawnZone != zone;
   if (redraw) {
     lastDrawnZone = zone;
@@ -127,8 +135,16 @@ int drawStopped() {
   return redraw;
 }
 
+int drawStopped() {
+  drawPlayer();
+  drawStopWatchIcon();
+  return drawZoneSelect();
+}
+
 int drawSplitPredict() {
-  return drawStopped();
+  drawPlayer();
+  drawZoneIcon();
+  return drawZoneSelect();
 }
 
 int drawStopwatchCounting() {
@@ -136,6 +152,7 @@ int drawStopwatchCounting() {
 
   if ((now - stopwatchLastDrawMillis) >= STOPWATCH_DRAW_INTERVAL_MS) {
     drawPlayer();
+    drawStopWatchIcon();
 
     stopwatchLastDrawMillis = now;
 

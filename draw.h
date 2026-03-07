@@ -7,7 +7,6 @@ void flushDraw();
 // Handler Functions
 
 int defaultDraw();
-int drawPlayer();
 int drawIdle();
 int drawStopped();
 int drawSplitPredict();
