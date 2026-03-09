@@ -5,6 +5,7 @@
 void defaultEntry();
 void idleEntry();
 void stopwatchStoppedEntry();
+void recordShotEntry();
 void stopwatchCountingEntry();
 void splitPredictEntry();
 

@@ -7,10 +7,10 @@
 #include "data.h"
 
 // Button pin constants
-const int B_SELECT = 51;
-const int B_UP = 47;
-const int B_DOWN = 43;
-const int B_CANCEL = 39;
+const int B_SELECT = 2;
+const int B_UP = 3;
+const int B_DOWN = 4;
+const int B_CANCEL = 5;
 
 // OLED display
 const int OLED_WIDTH = 128;

@@ -14,9 +14,15 @@ int idleTransition(button b) {
 }
 
 int stopwatchStoppedTransition(button b) {
-  if (b == SELECT) currentState = IDLE;
+  if (b == SELECT) currentState = RECORD_SHOT;
   else if (b == CANCEL) currentState = IDLE;
   else return 0;
+
+  return 1;
+}
+
+int recordShotTransition(button b) {
+  currentState = IDLE;
 
   return 1;
 }

@@ -6,6 +6,7 @@
 int defaultTransition(button);
 int idleTransition(button);
 int stopwatchStoppedTransition(button);
+int recordShotTransition(button);
 int stopwatchCountingTransition(button);
 int splitPredictTransition(button);
 

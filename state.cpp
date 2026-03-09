@@ -20,6 +20,8 @@ StateHandlers getHandlersForState(state s) {
       return { idleEntry, idleTransition, selectPlayer, drawIdle };
     case STOPWATCH_STOPPED:
       return { stopwatchStoppedEntry, stopwatchStoppedTransition, selectZone, drawStopped };
+    case RECORD_SHOT:
+      return {recordShotEntry, recordShotTransition, defaultAction, defaultDraw };
     case STOPWATCH_COUNTING:
       return { stopwatchCountingEntry, stopwatchCountingTransition, defaultAction, drawStopwatchCounting };
     case SPLIT_PREDICT:

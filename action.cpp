@@ -2,6 +2,7 @@
 #include "data.h"
 #include "registers.h"
 #include "control.h"
+#include "calcs.h"
 
 // Helper functions
 static int mod(int a, int b) {
@@ -42,5 +43,5 @@ void selectZone(button b) {
 
 void predictSplit(button b) {
   selectZone(b);
-  split = zone / 2.0;
+  split = getPlayerSplitForZone(currentPlayer, zone);
 }
