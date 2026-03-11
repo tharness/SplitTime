@@ -113,12 +113,11 @@ int drawZoneSelect() {
   // print zone prediction
   String zoneText;
   // no data
-  if (zone < 0)
-  {
-    zoneText = "_";
+  if (zone < 0) {
+    zoneText = " ";
   }
   // real prediction/input
-  else if (zoneFlag == 0) {
+  else {
     // zone 0 and 11 come from user input
     if (zone == 0) {
       zoneText = "HOG";
@@ -129,12 +128,12 @@ int drawZoneSelect() {
     }
   }
   // lower than any recorded zone
-  else if (zoneFlag < 0) {
-    zoneText = "< " + String(zone);
+  if (zoneFlag < 0) {
+    zoneText = "< " + zoneText;
   } 
   // greater than any recorded zone
   else if (zoneFlag == 1) {
-    zoneText = "> " + String(zone);
+    zoneText = "> " + zoneText;
   }
 
   oled.setTextSize(2);
