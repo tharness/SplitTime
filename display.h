@@ -19,4 +19,6 @@ void oledSetCursorToRightJustifyText(const char* text, int rightX, int y);
 void oledSetCursorToBottomJustifyText(const String& text, int x, int bottomY);
 void oledSetCursorToBottomJustifyText(const char* text, int x, int bottomY);
 
+void drawImage(const unsigned char* image);
+
 #endif // DISPLAY_H

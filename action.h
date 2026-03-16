@@ -8,5 +8,6 @@ void defaultAction(button);
 void selectPlayer(button);
 void selectZone(button);
 void predictSplit(button);
+void selectRecordMode(button);
 
 #endif // ACTION_H

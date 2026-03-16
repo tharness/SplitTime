@@ -42,3 +42,10 @@ int splitPredictTransition(button b) {
 
   return 1;
 }
+
+int recordSelectTransition(button b) {
+  if (b == SELECT) currentState = IDLE;
+  else return 0;
+
+  return 1;
+}

@@ -1,15 +1,9 @@
 #ifndef REGISTERS_H
 #define REGISTERS_H
 
-extern int oldRockX;
-extern int oldRockY;
-extern int rockX;
-extern int rockY;
-extern int rockXBound;
-extern int rockYBound;
-
 extern int currentPlayer;
-extern int currentRockRotation;
+// 1 indicates shot data should be recorded, 0 not recorded
+extern int recordShotData;
 
 extern unsigned long stopwatchStartTime;
 extern float split;

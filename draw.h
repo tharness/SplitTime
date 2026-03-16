@@ -11,5 +11,6 @@ int drawIdle();
 int drawStopped();
 int drawSplitPredict();
 int drawStopwatchCounting();
+int drawRecordSelect();
 
 #endif // DRAW_H

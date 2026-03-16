@@ -40,7 +40,7 @@ void setup() {
   pinMode(B_DOWN, INPUT_PULLUP);
   pinMode(B_CANCEL, INPUT_PULLUP);
 
-  setState(IDLE);
+  setState(REC_SELECT);
 
   doStateDraw();
 }  

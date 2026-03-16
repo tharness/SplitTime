@@ -9,6 +9,7 @@ static const unsigned long CURSOR_DRAW_INTERVAL_MS = 500;
 static unsigned long stopwatchLastDrawMillis = 0;
 static const unsigned long STOPWATCH_DRAW_INTERVAL_MS = 10;
 static int lastDrawnZone = -1;
+static int lastRecordSelect = 0;
 
 void initDraw() {
   oled.clearDisplay();
@@ -195,4 +196,39 @@ int drawStopwatchCounting() {
   }
 
   return 0;
+}
+
+int drawRecordSelect() {
+  if (lastRecordSelect == recordShotData) {
+    lastRecordSelect = 1 - recordShotData;
+    return 0;
+  }
+
+  char* title = "Record shot data?";
+  oled.setTextSize(1);
+  int centerX = OLED_WIDTH / 2;
+
+  oledSetCursorToCenterText(title, centerX, 0);
+  int x = oled.getCursorX();
+  oled.setCursor(x, 0);
+  oled.print(title);
+
+  oled.setTextSize(2);
+  int centerY = OLED_HEIGHT / 2;
+  if (recordShotData) {
+    char* selection = "Yes";
+    oledSetCursorToCenterText(selection, 0, centerY);
+    int y = oled.getCursorY();
+    oled.setCursor(0, y);
+    oled.print(selection);
+  }
+  else {
+    char* selection = "No";
+    oledSetCursorToCenterText(selection, 0, centerY);
+    int y = oled.getCursorY();
+    oledSetCursorToRightJustifyText(selection, OLED_WIDTH - 1, y);
+    oled.print(selection);
+  }
+
+  return 1;
 }

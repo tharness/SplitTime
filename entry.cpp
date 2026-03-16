@@ -20,7 +20,6 @@ void stopwatchStoppedEntry() {
 
 void stopwatchCountingEntry() {
   stopwatchStartTime = millis();
-  currentRockRotation = 0;
 }
 
 void recordShotEntry() {

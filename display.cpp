@@ -44,3 +44,10 @@ void oledSetCursorToBottomJustifyText(const char* text, int x, int bottomY) {
   int textY = bottomY - h;
   oled.setCursor(x, textY);
 }
+
+
+void drawImage(const unsigned char* image) {
+  oled.clearDisplay();
+  oled.drawBitmap(0, 0, image, 128, 64, SSD1306_WHITE);
+  oled.display();
+}

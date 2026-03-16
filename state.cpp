@@ -26,6 +26,8 @@ StateHandlers getHandlersForState(state s) {
       return { stopwatchCountingEntry, stopwatchCountingTransition, defaultAction, drawStopwatchCounting };
     case SPLIT_PREDICT:
       return { splitPredictEntry, splitPredictTransition, predictSplit, drawSplitPredict };
+    case REC_SELECT:
+      return {defaultEntry, recordSelectTransition, selectRecordMode, drawRecordSelect };
     default:
       return { defaultEntry, defaultTransition, defaultAction, defaultDraw };
   }

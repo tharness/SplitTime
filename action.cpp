@@ -45,3 +45,14 @@ void predictSplit(button b) {
   selectZone(b);
   split = getPlayerSplitForZone(currentPlayer, zone);
 }
+
+void selectRecordMode(button b) {
+  switch (b) {
+    case UP:
+    case DOWN:
+      recordShotData = 1 - recordShotData;
+      break;
+    default:
+      break;
+  }
+}
