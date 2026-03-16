@@ -1,5 +1,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <EEPROM.h>
 
 #include "display.h"
 #include "state.h"
@@ -27,7 +28,23 @@ button getButton() {
   return NONE;
 }
 
+void monitorSerial() {
+  if (Serial.available() > 0) {
+      String message = Serial.readString();
+      if (message == "download") {
+        for (int index = 0; index < EEPROM.length(); index++) {
+          Serial.print(index);
+          Serial.print(": ");
+          Serial.println(EEPROM[index]);
+        }
+      }
+    }
+}
+
 void setup() {
+  // Serial
+  Serial.begin(9600);
+
   // OLED setup
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   oled.clearDisplay();
@@ -46,6 +63,9 @@ void setup() {
 }  
 
 void loop() {
+  // Check if serial data sent
+  monitorSerial();
+
   // only handle input if selection has changed to ignore holding
   button previousButton = currentButton;
   currentButton = getButton();
