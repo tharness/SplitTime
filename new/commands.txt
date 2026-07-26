@@ -1,0 +1,2 @@
+g++ -Iinclude *.cpp src/* -o p
+g++ -Iinclude -Itests/framework src/* tests/* -o t
