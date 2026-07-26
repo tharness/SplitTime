@@ -14,10 +14,13 @@ The Makefile provides a simple way to build and test the project:
 - make all builds both the demo and test binaries.
 - make demo builds the interactive demo into bin/demo.
 - make test builds the test executable into bin/test.
+- make arduino_project copies source files into flat folder arduino_project
 - make clean removes the generated files from the bin directory.
 
 ## State diagram
 
 The image below shows the state diagram for the project. It describes the states, transitions, and actions used by the application.
+
+The editable source for this diagram is available in [state_diagram/SplitTime.drawio.xml](state_diagram/SplitTime.drawio.xml).
 
 ![SplitTime state diagram](state_diagram/SplitTime.jpg)
