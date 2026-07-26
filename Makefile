@@ -13,7 +13,13 @@ test: $(SRCS) $(TEST_SRCS) $(HDRS)
 	mkdir -p bin
 	g++ -Iinclude -Itests/framework $(SRCS) $(TEST_SRCS) -o bin/test
 
+arduino_project: $(SRCS) $(HDRS)
+	mkdir -p arduino_project
+	cp $(SRCS) arduino_project
+	cp $(HDRS) arduino_project
+	for file in arduino_project/*.hpp; do mv "$$file" "$${file%.hpp}.h"; done
+
 clean:
 	rm -f bin/*
 
-.PHONY: all clean
+.PHONY: all clean arduino_project

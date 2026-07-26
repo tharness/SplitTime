@@ -1,1 +1,3 @@
 bin/*
+arduino_project/*.cpp
+arduino_project/*.h
