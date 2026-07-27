@@ -11,20 +11,29 @@ namespace Stopwatch {
 void handleEntry(State s, Data& d) {
     switch (s) {
         case IDLE:
-            std::cout << "-> Entering IDLE\n";
             enterIdle(d);
+            std::cout << "-> Entering IDLE\n";
+            std::cout << d.split << std::endl;
+            std::cout << d.position << std::endl;
             break;
         case RUNNING:
-            std::cout << "-> Entering RUNNING\n";
             enterRunning(d);
+            std::cout << "-> Entering RUNNING\n";
+            std::cout << d.position << std::endl;
             break;
         case ZONE_PREDICT:
-            std::cout << "-> Entering ZONE_PREDICT\n";
             enterZonePredict(d);
+            std::cout << "-> Entering ZONE_PREDICT\n";
+            std::cout << d.split << std::endl;
+            std::cout << d.zone << std::endl;
+            std::cout << d.position << std::endl;
             break;
         case SPLIT_PREDICT:
-            std::cout << "-> Entering SPLIT_PREDICT\n";
             enterSplitPredict(d);
+            std::cout << "-> Entering SPLIT_PREDICT\n";
+            std::cout << d.split << std::endl;
+            std::cout << d.zone << std::endl;
+            std::cout << d.position << std::endl;
             break;
         default:
             std::cout << "-> Entering Unknown State\n";
@@ -36,20 +45,20 @@ void handleEntry(State s, Data& d) {
 void handleExit(State s, Data& d) {
     switch (s) {
         case IDLE:
-            std::cout << "<- Exiting IDLE\n";
             exitIdle(d);
+            std::cout << "<- Exiting IDLE\n";
             break;
         case RUNNING:
-            std::cout << "<- Exiting RUNNING\n";
             exitRunning(d);
+            std::cout << "<- Exiting RUNNING\n";
             break;
         case ZONE_PREDICT:
-            std::cout << "<- Exiting ZONE_PREDICT\n";
             exitZonePredict(d);
+            std::cout << "<- Exiting ZONE_PREDICT\n";
             break;
         case SPLIT_PREDICT:
-            std::cout << "<- Exiting SPLIT_PREDICT\n";
             exitSplitPredict(d);
+            std::cout << "<- Exiting SPLIT_PREDICT\n";
             break;
         default:
             std::cout << "<- Exiting Unknown State\n";
