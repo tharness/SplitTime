@@ -32,11 +32,15 @@ void saveShot(Data& d) {
     float zones[MAX_COUNT];
     int count = 0;
     // go through d.shots, filter by player, adding to buffers and keeping count
+    // do not include in the regression shots that were out of play
     for (int i = 0; i < d.currentShot; ++i) {
-        if (d.shots[i].position == d.position && count < MAX_COUNT)
+        auto& shot = d.shots[i];
+        if (shot.position == d.position 
+            && count < MAX_COUNT
+            && shot.zone >= 1 && shot.zone <= 10)
         {
-            splits[count] = d.shots[i].split;
-            zones[count] = d.shots[i].zone;
+            splits[count] = shot.split;
+            zones[count] = shot.zone;
             ++count;
         }
     }

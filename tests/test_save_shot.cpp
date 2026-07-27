@@ -50,8 +50,30 @@ TEST(save_single_player_shots_computes_regression) {
     };
     // save shots for a single player
     int count = 10;
-    float splits[] = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
-    float zones[] = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1};
+    float splits[]  = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
+    float zones[]   = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1};
+    for (int i = 0; i < count; i++) {
+        d.split = splits[i];
+        d.zone = zones[i];
+        saveShot(d);
+    }
+
+    // known correct values
+    auto& model = d.models_by_position[0];
+    return model.rSquared > 0 
+    && model.slope > -14.9 && model.slope < -14.7
+    && model.intercept > 62.68 && model.intercept < 62.70
+    && model.rSquared > 0.9425 && model.rSquared < 0.9427;
+}
+
+TEST(save_single_player_shots_ignores_out_of_play) {
+    Data d{
+        .position = 0
+    };
+    // save shots for a single player
+    int count = 12;
+    float splits[]  = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2,  4.3,    3.4};
+    float zones[]   = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1,    0,      11};
     for (int i = 0; i < count; i++) {
         d.split = splits[i];
         d.zone = zones[i];
