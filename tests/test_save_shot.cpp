@@ -1,6 +1,6 @@
-#include "_test.hpp"
-#include "actions.hpp"
-#include "data.hpp"
+#include "_test.h"
+#include "actions.h"
+#include "data.h"
 
 using namespace Stopwatch;
 

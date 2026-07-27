@@ -1,5 +1,5 @@
-#ifndef EVENT_HPP
-#define EVENT_HPP
+#ifndef EVENT_H
+#define EVENT_H
 
 namespace Stopwatch {
 
@@ -12,4 +12,4 @@ enum Event {
 
 }
 
-#endif // EVENT_HPP
+#endif // EVENT_H

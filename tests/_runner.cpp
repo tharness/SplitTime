@@ -1,4 +1,4 @@
-#include "_test.hpp"
+#include "_test.h"
 
 std::vector<TestCase> tests;
 

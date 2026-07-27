@@ -1,9 +1,9 @@
-#ifndef STOPWATCH_HPP
-#define STOPWATCH_HPP
+#ifndef STOPWATCH_H
+#define STOPWATCH_H
 
-#include "event.hpp"
-#include "states.hpp"
-#include "data.hpp"
+#include "event.h"
+#include "states.h"
+#include "data.h"
 
 namespace Stopwatch {
 
@@ -21,4 +21,4 @@ private:
 
 }
 
-#endif // STOPWATCH_HPP
+#endif // STOPWATCH_H

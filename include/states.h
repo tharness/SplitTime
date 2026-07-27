@@ -1,5 +1,5 @@
-#ifndef STATES_HPP
-#define STATES_HPP
+#ifndef STATES_H
+#define STATES_H
 
 namespace Stopwatch {
 
@@ -12,4 +12,4 @@ enum State {
 
 }
 
-#endif // STATES_HPP
+#endif // STATES_H

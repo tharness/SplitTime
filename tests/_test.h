@@ -1,5 +1,5 @@
-#ifndef TEST_HPP
-#define TEST_HPP
+#ifndef TEST_H
+#define TEST_H
 
 #include <iostream>
 #include <vector>
@@ -22,4 +22,4 @@ struct TestRegistrar {
     inline TestRegistrar register_##name(name, #name); \
     bool name() 
 
-#endif // TEST_HPP
+#endif // TEST_H

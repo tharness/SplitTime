@@ -1,9 +1,9 @@
-#ifndef TRANSITIONS_HPP
-#define TRANSITIONS_HPP
+#ifndef TRANSITIONS_H
+#define TRANSITIONS_H
 
-#include "states.hpp"
-#include "event.hpp"
-#include "data.hpp"
+#include "states.h"
+#include "event.h"
+#include "data.h"
 
 namespace Stopwatch {
 
@@ -27,4 +27,4 @@ void handleEntry(State s, Data& r);
 
 }
 
-#endif
+#endif // TRANSITION_H

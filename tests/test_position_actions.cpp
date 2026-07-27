@@ -1,5 +1,5 @@
-#include "_test.hpp"
-#include "actions.hpp"
+#include "_test.h"
+#include "actions.h"
 
 using namespace Stopwatch;
 

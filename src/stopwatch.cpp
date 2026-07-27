@@ -1,5 +1,5 @@
-#include "stopwatch.hpp"
-#include "transitions.hpp"
+#include "stopwatch.h"
+#include "transitions.h"
 
 namespace Stopwatch {
 

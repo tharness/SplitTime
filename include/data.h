@@ -1,7 +1,7 @@
-#ifndef DATA_HPP
-#define DATA_HPP
+#ifndef DATA_H
+#define DATA_H
 
-// 8 shots over 8 eds, with potential extra
+// 8 shots over 8 ends, with potential extra
 const int maxShots = 8 * 8 + 8;
 
 namespace Stopwatch {
@@ -16,9 +16,10 @@ struct Data {
     int position = 0;
     int zone;
     unsigned int currentShot = 0;
+    float split;
     Shot shots[maxShots];
 };
 
 }
 
-#endif // DATA_HPP
+#endif // DATA_H
