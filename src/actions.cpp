@@ -16,17 +16,33 @@ void predictZone(Data& d) {
     else d.zone = -1;
 }
 void saveShot(Data& d) {
+    // discard if maximum shot count reached
     if (d.currentShot >= maxShots) return;
+    // save shot
     auto& shot = d.shots[d.currentShot++];
     shot.position = d.position;
     shot.split = d.split;
     shot.zone = d.zone;
+
     // do regression
-    // REPLACE WITH REAL PLAYER SHOT DATA
-    float x[] = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
-    float y[] = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1};
+
+    // max shots per player in 3-person game is 3 * 8 + 3 = 27
+    const int MAX_COUNT = 27;
+    float splits[MAX_COUNT];
+    float zones[MAX_COUNT];
+    int count = 0;
+    // go through d.shots, filter by player, adding to buffers and keeping count
+    for (int i = 0; i < d.currentShot; ++i) {
+        if (d.shots[i].position == d.position && count < MAX_COUNT)
+        {
+            splits[count] = d.shots[i].split;
+            zones[count] = d.shots[i].zone;
+            ++count;
+        }
+    }
+
     auto& model = d.models_by_position[d.position];
-    linearRegressionLeastSquares(x, y, sizeof(x)/sizeof(float), model.slope, model.intercept, model.rSquared);
+    linearRegressionLeastSquares(splits, zones, count, model.slope, model.intercept, model.rSquared);
 }
 void incrementZone(Data& d) { if (++d.zone > 11) d.zone = 0; }
 void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
