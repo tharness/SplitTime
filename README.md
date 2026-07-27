@@ -1,6 +1,6 @@
 # SplitTime
 
-SplitTime is a small stopwatch-style application that models its behavior as a state machine. The project is organized around clear state, transition, and action logic, making it straightforward to understand and extend.
+SplitTime is a stopwatch designed to simply shot zone prediction for the sport of curling. It records shot split and resulting zone per-player. For each shot, if there is sufficient data, an updating per-player linear regression model will predict the resulting zone. The inverse is also possible; for a given zone, a split time is predicted per-player based on the same model. The R^2 of the model can be used as a percentage indicator of model fit.
 
 ## Project layout
 
