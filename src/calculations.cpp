@@ -1,0 +1,56 @@
+#include "calculations.h"
+
+namespace Stopwatch {
+
+int linearRegressionLeastSquares(const float* x, const float* y, int count, float& slope, float& intercept, float& rSquared) {
+
+    if (count <= 1) {
+        rSquared = 0;
+        return 0;
+    }
+
+    float sumX = 0.0;
+    float sumY = 0.0;
+    float sumXX = 0.0;
+    float sumXY = 0.0;
+
+    for (int i = 0; i < count; ++i) {
+        sumX += x[i];
+        sumY +=y[i];
+        sumXX += x[i] * x[i];
+        sumXY += x[i] * y[i];
+    }
+
+    float denominator = (count * sumXX) - (sumX * sumX);
+
+    if (denominator == 0.0) {
+        rSquared = 0;
+        return 0;
+    }
+
+    slope = ((count * sumXY) - (sumX * sumY)) / denominator;
+    intercept = (sumY - (slope * sumX)) / count;
+
+    float meanX = sumX / count;
+    float meanY = sumY / count;
+    float ssTot = 0.0;
+    float ssRes = 0.0;
+
+    for (int i = 0; i < count; ++i) {
+        float fitted = (slope * x[i]) + intercept;
+        float diff = y[i] - meanY;
+        float resid = y[i] - fitted;
+        ssTot += diff * diff;
+        ssRes += resid * resid;
+    }
+
+    if (ssTot == 0.0) {
+        rSquared = 1.0;
+    } else {
+        rSquared = 1.0 - (ssRes / ssTot);
+    }
+
+    return 1;
+}
+
+}
