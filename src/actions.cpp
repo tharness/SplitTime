@@ -1,5 +1,6 @@
 #include "actions.h"
-#include <iostream>
+#include "calculations.h"
+#include <cmath>
 
 namespace Stopwatch {
 
@@ -9,13 +10,23 @@ void noAction(Data& d) { }
 void incrementPosition(Data& d) { if (++d.position > 3) d.position = 0; }
 void decrementPosition(Data& d) { if (--d.position < 0) d.position = 3; }
 void startTimer(Data& d) {}
-void stopTimer(Data& d) {}
+void stopTimer(Data& d) {
+    auto& model = d.models_by_position[d.position];
+    if (model.rSquared > 0) d.zone = round(model.slope * d.split + model.intercept);
+    else d.zone = -1;
+}
 void saveShot(Data& d) {
     if (d.currentShot >= maxShots) return;
     auto& shot = d.shots[d.currentShot++];
     shot.position = d.position;
     shot.split = d.split;
     shot.zone = d.zone;
+    // do regression
+    // REPLACE WITH REAL PLAYER SHOT DATA
+    float x[] = {0.0, 1.0, 2.0, 3.0};
+    float y[] = {1.0, 3.0, 5.0, 7.0};
+    auto& model = d.models_by_position[d.position];
+    linearRegressionLeastSquares(x, y, sizeof(x)/sizeof(float), model.slope, model.intercept, model.rSquared);
 }
 void incrementZone(Data& d) { if (++d.zone > 11) d.zone = 0; }
 void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
