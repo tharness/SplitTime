@@ -23,8 +23,8 @@ void saveShot(Data& d) {
     shot.zone = d.zone;
     // do regression
     // REPLACE WITH REAL PLAYER SHOT DATA
-    float x[] = {0.0, 1.0, 2.0, 3.0};
-    float y[] = {1.0, 3.0, 5.0, 7.0};
+    float x[] = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
+    float y[] = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1};
     auto& model = d.models_by_position[d.position];
     linearRegressionLeastSquares(x, y, sizeof(x)/sizeof(float), model.slope, model.intercept, model.rSquared);
 }
