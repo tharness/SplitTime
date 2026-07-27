@@ -2,11 +2,11 @@
 
 namespace Stopwatch {
 
-int linearRegressionLeastSquares(const float* x, const float* y, int count, float& slope, float& intercept, float& rSquared) {
+void linearRegressionLeastSquares(const float* x, const float* y, int count, float& slope, float& intercept, float& rSquared) {
 
     if (count <= 1) {
         rSquared = 0;
-        return 0;
+        return;
     }
 
     float sumX = 0.0;
@@ -25,7 +25,7 @@ int linearRegressionLeastSquares(const float* x, const float* y, int count, floa
 
     if (denominator == 0.0) {
         rSquared = 0;
-        return 0;
+        return;
     }
 
     slope = ((count * sumXY) - (sumX * sumY)) / denominator;
@@ -50,7 +50,7 @@ int linearRegressionLeastSquares(const float* x, const float* y, int count, floa
         rSquared = 1.0 - (ssRes / ssTot);
     }
 
-    return 1;
+    return;
 }
 
 }

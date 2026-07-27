@@ -3,7 +3,7 @@
 
 namespace Stopwatch {
 
-int linearRegressionLeastSquares(const float* x, const float* y, int count, float& slope, float& intercept, float& rSquared);
+void linearRegressionLeastSquares(const float* x, const float* y, int count, float& slope, float& intercept, float& rSquared);
 
 }
 
