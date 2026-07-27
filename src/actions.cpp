@@ -33,7 +33,7 @@ void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
 void setZoneToSeven(Data& d) { d.zone = 7; }
 
 // state entry actions
-void enterIdle(Data& d) {}
+void enterIdle(Data& d) { d.split = 0; }
 void enterSplitPredict(Data& d) {
     auto& model = d.models_by_position[d.position];
     if (model.rSquared > 0) d.split = ((float)d.zone - model.intercept) / model.slope;
