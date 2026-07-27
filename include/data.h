@@ -7,9 +7,15 @@ const int maxShots = 8 * 8 + 8;
 namespace Stopwatch {
 
 struct Shot {
-    int position;
-    float split;
-    int zone;
+    int position = 0;
+    float split = 0;
+    int zone = 0;
+};
+
+struct Model {
+    float slope = 0;
+    float intercept = 0;
+    float rSquared = 0;
 };
 
 struct Data {
@@ -18,6 +24,7 @@ struct Data {
     unsigned int currentShot = 0;
     float split;
     Shot shots[maxShots];
+    Model models_by_position[4];
 };
 
 }
