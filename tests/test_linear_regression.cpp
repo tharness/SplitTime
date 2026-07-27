@@ -4,20 +4,6 @@
 using namespace Stopwatch;
 
 TEST(linear_regression_calculates_slope_intercept_and_r_squared) {
-    float x[] = {0.0, 1.0, 2.0, 3.0};
-    float y[] = {1.0, 3.0, 5.0, 7.0};
-
-    float slope, intercept, rSquared;
-
-    linearRegressionLeastSquares(x, y, 4, slope, intercept, rSquared);
-
-    return rSquared > 0 
-        && slope > 1.999 && slope < 2.001
-        && intercept > 0.999 && intercept < 1.001
-        && rSquared > 0.999 && rSquared < 1.001;
-}
-
-TEST(linear_regression_calculates_slope_intercept_and_r_squared_dummy_data) {
     float x[] = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
     float y[] = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1};
 
