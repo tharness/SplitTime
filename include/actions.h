@@ -11,7 +11,7 @@ void noAction(Data& d);
 void incrementPosition(Data& d);
 void decrementPosition(Data& d);
 void startTimer(Data& d);
-void stopTimer(Data& d);
+void predictZone(Data& d);
 void saveShot(Data& d);
 void incrementZone(Data& d);
 void decrementZone(Data& d);

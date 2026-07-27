@@ -67,7 +67,7 @@ const Transition transitionTable[] = {
     {   SPLIT_PREDICT,  START_STOP,     startTimer,            RUNNING         },
     {   SPLIT_PREDICT,  UP,             incrementZone,         SPLIT_PREDICT   },
     {   SPLIT_PREDICT,  DOWN,           decrementZone,         SPLIT_PREDICT   },
-    {   RUNNING,        START_STOP,     stopTimer,             ZONE_PREDICT    },
+    {   RUNNING,        START_STOP,     predictZone,             ZONE_PREDICT    },
     {   ZONE_PREDICT,   START_STOP,     saveShot,              IDLE            },
     {   ZONE_PREDICT,   UP,             incrementZone,         ZONE_PREDICT    },
     {   ZONE_PREDICT,   DOWN,           decrementZone,         ZONE_PREDICT    },
