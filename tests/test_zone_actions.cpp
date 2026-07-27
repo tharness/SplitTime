@@ -34,3 +34,11 @@ TEST(decrement_zone_underflow_wraps) {
     decrementZone(d);
     return d.zone == 11;
 }
+
+TEST(set_zone_to_seven_functions) {
+        Data d{
+        .zone = 0
+    };    
+    setZoneToSeven(d);
+    return d.zone == 7;
+}

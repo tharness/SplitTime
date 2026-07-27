@@ -30,6 +30,7 @@ void saveShot(Data& d) {
 }
 void incrementZone(Data& d) { if (++d.zone > 11) d.zone = 0; }
 void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
+void setZoneToSeven(Data& d) { d.zone = 7; }
 
 // state entry actions
 void enterIdle(Data& d) {}

@@ -15,6 +15,7 @@ void predictZone(Data& d);
 void saveShot(Data& d);
 void incrementZone(Data& d);
 void decrementZone(Data& d);
+void setZoneToSeven(Data& d);
 
 // state entry actions
 void enterIdle(Data& d);
