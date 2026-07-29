@@ -14,9 +14,9 @@ test: $(SRCS) $(TEST_SRCS) $(HDRS)
 	g++ -Iinclude -Itests/framework $(SRCS) $(TEST_SRCS) -o bin/test
 
 arduino_project: $(SRCS) $(HDRS)
-	mkdir -p arduino_project
-	cp $(SRCS) arduino_project
-	cp $(HDRS) arduino_project
+	mkdir -p arduino_project/SplitTime
+	cp $(SRCS) arduino_project/SplitTime
+	cp $(HDRS) arduino_project/SplitTime
 
 clean:
 	rm -f bin/*

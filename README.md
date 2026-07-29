@@ -14,7 +14,7 @@ The Makefile provides a simple way to build and test the project:
 - make all builds both the demo and test binaries.
 - make demo builds the interactive demo into bin/demo.
 - make test builds the test executable into bin/test.
-- make arduino_project copies source files into flat folder arduino_project
+- make arduino_project copies source files into flat folder arduino_project/SplitTime
 - make clean removes the generated files from the bin directory.
 
 ## State diagram
