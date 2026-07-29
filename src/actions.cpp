@@ -1,6 +1,5 @@
 #include "actions.h"
 #include "calculations.h"
-#include <cmath>
 
 namespace Stopwatch {
 
@@ -12,7 +11,8 @@ void decrementPosition(Data& d) { if (--d.position < 0) d.position = 3; }
 void startTimer(Data& d) { d.startMs = d.nowMs; }
 void predictZone(Data& d) {
     auto& model = d.models_by_position[d.position];
-    if (model.rSquared > 0) d.zone = round(model.slope * d.split + model.intercept);
+    // if there is some amount of model fit, interpolated and round
+    if (model.rSquared > 0) d.zone = (int)((model.slope * d.split + model.intercept) + 0.5);
     else d.zone = -1;
 }
 void saveShot(Data& d) {
