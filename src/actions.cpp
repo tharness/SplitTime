@@ -9,7 +9,7 @@ namespace Stopwatch {
 void noAction(Data& d) {}
 void incrementPosition(Data& d) { if (++d.position > 3) d.position = 0; }
 void decrementPosition(Data& d) { if (--d.position < 0) d.position = 3; }
-void startTimer(Data& d) {}
+void startTimer(Data& d) { d.startMs = d.nowMs; }
 void predictZone(Data& d) {
     auto& model = d.models_by_position[d.position];
     if (model.rSquared > 0) d.zone = round(model.slope * d.split + model.intercept);

@@ -18,8 +18,9 @@ void Stopwatch::handleEvent(Event e) {
     }
 }
 
-void tick() {
-    
+void Stopwatch::tick(long nowMs) {
+    data.nowMs = nowMs;
+    if (currentState == RUNNING) data.split = (nowMs - data.startMs) / 1000.0f;
 }
 
 State Stopwatch::getCurrentState() const {

@@ -11,7 +11,7 @@ class Stopwatch {
 public:
     Stopwatch();
     void handleEvent(Event e);
-    void tick();
+    void tick(long nowMs);
     State getCurrentState() const;
     const Data& getData() const;
 private:
