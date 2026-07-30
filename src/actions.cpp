@@ -12,7 +12,12 @@ void startTimer(Data& d) { d.startMs = d.nowMs; }
 void predictZone(Data& d) {
     auto& model = d.models_by_position[d.position];
     // if there is some amount of model fit, interpolated and round
-    if (model.rSquared > 0) d.zone = (int)((model.slope * d.split + model.intercept) + 0.5);
+    if (model.rSquared > 0) {
+        d.zone = (int)((model.slope * d.split + model.intercept) + 0.5);
+        //if hog or through, clamp to 0 and 11 respetively
+        if (d.zone < 1) d.zone = 0;
+        else if (d.zone > 10) d.zone = 11;
+    }
     else d.zone = -1;
 }
 void saveShot(Data& d) {
