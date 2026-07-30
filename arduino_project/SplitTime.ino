@@ -23,9 +23,10 @@ int getButton() {
   if (kp_val > KP_RIGHT) return 5;
 }
 
+const int FPS = 60;
 long lastDrawMs = 0;
 bool isTimeToDraw() {
-  const long MILLIS_PER_FRAME = 1000 / 10;
+  const long MILLIS_PER_FRAME = 1000 / FPS;
   return millis() - lastDrawMs > MILLIS_PER_FRAME;
 }
 
@@ -33,7 +34,7 @@ Stopwatch::Stopwatch s;
 
 void setup() {
   // put your setup code here, to run once:
-  initDraw();
+  initDraw(FPS);
 }
 
 void loop() {
