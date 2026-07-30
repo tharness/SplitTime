@@ -7,7 +7,8 @@ enum State {
     IDLE,
     RUNNING,
     ZONE_PREDICT,
-    SPLIT_PREDICT
+    SPLIT_PREDICT,
+    SAVE_SELECT
 };
 
 }

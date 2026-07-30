@@ -4,31 +4,31 @@
 
 using namespace Stopwatch;
 
-TEST(no_save_no_shots) {
+TEST(no_add_no_shots) {
     Data d{};
     return d.currentShot == 0;
 }
 
-TEST(save_records_shot_data) {
+TEST(add_records_shot_data) {
     Data d{
         .position = 2,
         .zone = 9
     };
-    saveShot(d);
+    addShot(d);
     return d.currentShot == 1 && 
         d.shots[0].position == 2 && 
         d.shots[0].zone == 9;
 }
 
-TEST(save_records_multiple_shot_data) {
+TEST(add_records_multiple_shot_data) {
     Data d{
         .position = 2,
         .zone = 9
     };
-    saveShot(d);
+    addShot(d);
     d.position = 3;
     d.zone = 2;
-    saveShot(d);
+    addShot(d);
     return d.currentShot == 2 && 
         d.shots[0].position == 2 && 
         d.shots[0].zone == 9 &&
@@ -36,15 +36,15 @@ TEST(save_records_multiple_shot_data) {
         d.shots[1].zone == 2;
 }
 
-TEST(save_too_may_shots_prevets_save) {
+TEST(add_too_may_shots_prevets_recording) {
     Data d{
         .currentShot = maxShots
     };
-    saveShot(d);
+    addShot(d);
     return d.currentShot == maxShots;
 }
 
-TEST(save_single_player_shots_computes_regression) {
+TEST(add_single_player_shots_computes_regression) {
     Data d{
         .position = 0
     };
@@ -55,7 +55,7 @@ TEST(save_single_player_shots_computes_regression) {
     for (int i = 0; i < count; i++) {
         d.split = splits[i];
         d.zone = zones[i];
-        saveShot(d);
+        addShot(d);
     }
 
     // known correct values
@@ -66,7 +66,7 @@ TEST(save_single_player_shots_computes_regression) {
     && model.rSquared > 0.9425 && model.rSquared < 0.9427;
 }
 
-TEST(save_single_player_shots_ignores_out_of_play) {
+TEST(add_single_player_shots_ignores_out_of_play) {
     Data d{
         .position = 0
     };
@@ -77,7 +77,7 @@ TEST(save_single_player_shots_ignores_out_of_play) {
     for (int i = 0; i < count; i++) {
         d.split = splits[i];
         d.zone = zones[i];
-        saveShot(d);
+        addShot(d);
     }
 
     // known correct values
@@ -88,7 +88,7 @@ TEST(save_single_player_shots_ignores_out_of_play) {
     && model.rSquared > 0.9425 && model.rSquared < 0.9427;
 }
 
-TEST(save_multiple_player_shots_computes_regression_for_right_player) {
+TEST(add_multiple_player_shots_computes_regression_for_right_player) {
         Data d{
         .position = 0
     };
@@ -99,7 +99,7 @@ TEST(save_multiple_player_shots_computes_regression_for_right_player) {
     for (int i = 0; i < count - 2; i++) {
         d.split = splits[i];
         d.zone = zones[i];
-        saveShot(d);
+        addShot(d);
     }
 
     // pollute the shots with a different player
@@ -109,17 +109,17 @@ TEST(save_multiple_player_shots_computes_regression_for_right_player) {
     for (int i = 0; i < 3; i++) {
         d.split = splits_two[i];
         d.zone = zones_two[i];
-        saveShot(d);
+        addShot(d);
     }
 
     // save final 2 shots for player 0
     d.position = 0;
     d.split = splits[8];
     d.zone = zones[8];
-    saveShot(d);
+    addShot(d);
     d.split = splits[9];
     d.zone = zones[9];
-    saveShot(d);
+    addShot(d);
 
     // known correct values
     auto& model = d.models_by_position[0];

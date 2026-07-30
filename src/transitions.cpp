@@ -20,6 +20,9 @@ void handleEntry(State s, Data& d) {
         case SPLIT_PREDICT:
             enterSplitPredict(d);
             break;
+        case SAVE_SELECT:
+            //TODO
+            break;
         default:
             break;
     }
@@ -40,6 +43,9 @@ void handleExit(State s, Data& d) {
         case SPLIT_PREDICT:
             exitSplitPredict(d);
             break;
+        case SAVE_SELECT:
+            //TODO
+            break;
         default:
             break;
     }
@@ -56,10 +62,13 @@ const Transition transitionTable[] = {
     {   SPLIT_PREDICT,  UP,             incrementZone,         SPLIT_PREDICT   },
     {   SPLIT_PREDICT,  DOWN,           decrementZone,         SPLIT_PREDICT   },
     {   RUNNING,        START_STOP,     predictZone,           ZONE_PREDICT    },
-    {   ZONE_PREDICT,   START_STOP,     saveShot,              IDLE            },
+    {   ZONE_PREDICT,   START_STOP,     addShot,               IDLE            },
     {   ZONE_PREDICT,   UP,             incrementZone,         ZONE_PREDICT    },
     {   ZONE_PREDICT,   DOWN,           decrementZone,         ZONE_PREDICT    },
-    {   ZONE_PREDICT,   MODE,           noAction,              IDLE            }
+    {   ZONE_PREDICT,   MODE,           noAction,              IDLE            },
+    {   SAVE_SELECT,    START_STOP,     noAction,              IDLE            },
+    {   SAVE_SELECT,    UP,             toggleSaveShots,       SAVE_SELECT     },
+    {   SAVE_SELECT,    DOWN,           toggleSaveShots,       SAVE_SELECT     }
 };
 
 const int numTransitions = sizeof(transitionTable) / sizeof(Transition);

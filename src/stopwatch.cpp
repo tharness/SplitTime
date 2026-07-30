@@ -3,7 +3,7 @@
 
 namespace Stopwatch {
 
-Stopwatch::Stopwatch() : currentState(IDLE) { }
+Stopwatch::Stopwatch() : currentState(SAVE_SELECT) { }
 
 void Stopwatch::handleEvent(Event e) {
     for (int i = 0; i < numTransitions; ++i) {

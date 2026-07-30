@@ -27,6 +27,7 @@ struct Data {
     Model models_by_position[4];
     long nowMs = 0;
     long startMs = 0;
+    bool saveShots = false;
 };
 
 }

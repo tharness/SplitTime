@@ -8,6 +8,9 @@ using namespace Stopwatch;
 TEST(integration_test_shots_generate_correct_model) {
     Stopwatch::Stopwatch s;
 
+    // exit save select screen
+    s.handleEvent(START_STOP);
+
     // simulate split -> zone combos 3.0 -> 9 and 4.0 -> 1
     // slope of -8 and intercept of 33
 

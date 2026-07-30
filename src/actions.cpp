@@ -20,10 +20,10 @@ void predictZone(Data& d) {
     }
     else d.zone = -1;
 }
-void saveShot(Data& d) {
+void addShot(Data& d) {
     // discard if maximum shot count reached
     if (d.currentShot >= maxShots) return;
-    // save shot
+    // add shot
     auto& shot = d.shots[d.currentShot++];
     shot.position = d.position;
     shot.split = d.split;
@@ -56,6 +56,7 @@ void saveShot(Data& d) {
 void incrementZone(Data& d) { if (++d.zone > 11) d.zone = 0; }
 void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
 void setZoneToSeven(Data& d) { d.zone = 7; }
+void toggleSaveShots(Data& d) { d.saveShots = !d.saveShots; }
 
 // state entry actions
 void enterIdle(Data& d) { d.split = 0; }

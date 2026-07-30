@@ -12,10 +12,11 @@ void incrementPosition(Data& d);
 void decrementPosition(Data& d);
 void startTimer(Data& d);
 void predictZone(Data& d);
-void saveShot(Data& d);
+void addShot(Data& d);
 void incrementZone(Data& d);
 void decrementZone(Data& d);
 void setZoneToSeven(Data& d);
+void toggleSaveShots(Data& d);
 
 // state entry actions
 void enterIdle(Data& d);
