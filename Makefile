@@ -1,6 +1,7 @@
 all: demo test
 
 SRCS := $(wildcard src/*.cpp)
+ARD_SRCS := $(wildcard arduino_project/*)
 DEMO_SRCS := main.cpp
 HDRS := $(wildcard include/*.h)
 TEST_SRCS := $(wildcard tests/*.cpp) $(wildcard tests/framework/*)
@@ -17,6 +18,8 @@ arduino_project: $(SRCS) $(HDRS)
 	mkdir -p arduino_project/SplitTime
 	cp $(SRCS) arduino_project/SplitTime
 	cp $(HDRS) arduino_project/SplitTime
+	cp $(ARD_SRCS) arduino_project/SplitTime
+	cp $(ARD_HDRS) arduino_project/SplitTime
 
 clean:
 	rm -f bin/*

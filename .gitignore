@@ -1,3 +1,2 @@
 bin/*
-arduino_project/SplitTime/*.cpp
-arduino_project/SplitTime/*.h
+arduino_project/SplitTime/*
