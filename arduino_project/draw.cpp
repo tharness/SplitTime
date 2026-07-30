@@ -17,6 +17,10 @@ void initDraw() {
     lcd.begin(LCD_COLS, LCD_ROWS);
 }
 
+void clear() {
+  lcd.clear();
+}
+
 void lcdClearCharAt(int col, int row) {
   lcd.setCursor(col, row);
   // Blank Character

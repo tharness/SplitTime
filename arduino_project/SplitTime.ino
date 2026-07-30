@@ -58,6 +58,7 @@ void loop() {
         break;
     }
     s.handleEvent(e);
+    clear();
   }
   if (isTimeToDraw()) {
     lastDrawMs = millis();
