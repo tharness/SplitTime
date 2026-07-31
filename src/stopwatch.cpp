@@ -1,9 +1,17 @@
 #include "stopwatch.h"
 #include "transitions.h"
+#include "model.h"
+#include "linearRegressionModel.h"
 
 namespace Stopwatch {
 
-Stopwatch::Stopwatch() : currentState(SAVE_SELECT) { }
+LinearRegressionModel linModels[4];
+
+Stopwatch::Stopwatch() : currentState(SAVE_SELECT) { 
+    for (int i = 0; i < 4; ++i) {
+        data.predictor_by_position[i].model = &linModels[i];
+    }
+}
 
 void Stopwatch::handleEvent(Event e) {
     for (int i = 0; i < numTransitions; ++i) {

@@ -1,6 +1,8 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include "model.h"
+
 // 8 shots over 8 ends, with potential extra
 const int maxShots = 8 * 8 + 8;
 
@@ -12,10 +14,9 @@ struct Shot {
     int zone = 0;
 };
 
-struct Model {
-    float slope = 0;
-    float intercept = 0;
-    float rSquared = 0;
+struct Predictor {
+    Model* model;
+    float confidence = 0;
 };
 
 struct Data {
@@ -24,7 +25,7 @@ struct Data {
     unsigned int currentShot = 0;
     float split = 0;
     Shot shots[maxShots];
-    Model models_by_position[4];
+    Predictor predictor_by_position[4];
     long nowMs = 0;
     long startMs = 0;
     bool saveShots = false;

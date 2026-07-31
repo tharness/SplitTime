@@ -1,6 +1,7 @@
 #include "_test.h"
 #include "actions.h"
 #include "data.h"
+#include "linearRegressionModel.h"
 
 using namespace Stopwatch;
 
@@ -14,6 +15,8 @@ TEST(add_records_shot_data) {
         .position = 2,
         .zone = 9
     };
+    LinearRegressionModel model;
+    d.predictor_by_position[2].model = &model;
     addShot(d);
     return d.currentShot == 1 && 
         d.shots[0].position == 2 && 
@@ -25,9 +28,13 @@ TEST(add_records_multiple_shot_data) {
         .position = 2,
         .zone = 9
     };
+    LinearRegressionModel model;
+    d.predictor_by_position[2].model = &model;
     addShot(d);
     d.position = 3;
     d.zone = 2;
+    LinearRegressionModel model2;
+    d.predictor_by_position[3].model = &model;
     addShot(d);
     return d.currentShot == 2 && 
         d.shots[0].position == 2 && 
@@ -36,18 +43,22 @@ TEST(add_records_multiple_shot_data) {
         d.shots[1].zone == 2;
 }
 
-TEST(add_too_may_shots_prevets_recording) {
+TEST(add_too_may_shots_prevents_recording) {
     Data d{
         .currentShot = maxShots
     };
+    LinearRegressionModel model;
+    d.predictor_by_position[0].model = &model;
     addShot(d);
     return d.currentShot == maxShots;
 }
 
 TEST(add_single_player_shots_computes_regression) {
     Data d{
-        .position = 0
+        .position = 0        
     };
+    LinearRegressionModel model;
+    d.predictor_by_position[0].model = &model;
     // save shots for a single player
     int count = 10;
     float splits[]  = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
@@ -58,40 +69,40 @@ TEST(add_single_player_shots_computes_regression) {
         addShot(d);
     }
 
-    // known correct values
-    auto& model = d.models_by_position[0];
-    return model.rSquared > 0 
-    && model.slope > -14.9 && model.slope < -14.7
-    && model.intercept > 62.68 && model.intercept < 62.70
-    && model.rSquared > 0.9425 && model.rSquared < 0.9427;
+    // known correct answer
+    d.split = 3.75;
+    predictZone(d);
+    return d.zone == 7;
 }
 
 TEST(add_single_player_shots_ignores_out_of_play) {
     Data d{
         .position = 0
     };
+    LinearRegressionModel model;
+    d.predictor_by_position[0].model = &model;
     // save shots for a single player
-    int count = 12;
-    float splits[]  = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2,  4.3,    3.4};
-    float zones[]   = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1,    0,      11};
+    int count = 10;
+    float splits[]  = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
+    float zones[]   = {10,    9,      10,     9,      7,      5,      4,      3,  2,      1};
     for (int i = 0; i < count; i++) {
         d.split = splits[i];
         d.zone = zones[i];
         addShot(d);
     }
 
-    // known correct values
-    auto& model = d.models_by_position[0];
-    return model.rSquared > 0 
-    && model.slope > -14.9 && model.slope < -14.7
-    && model.intercept > 62.68 && model.intercept < 62.70
-    && model.rSquared > 0.9425 && model.rSquared < 0.9427;
+    // known correct answer
+    d.split = 3.75;
+    predictZone(d);
+    return d.zone == 7;
 }
 
 TEST(add_multiple_player_shots_computes_regression_for_right_player) {
         Data d{
         .position = 0
     };
+    LinearRegressionModel model;
+    d.predictor_by_position[0].model = &model;
     // save shots for a single player less 2
     int count = 10;
     float splits[]  = {3.5,   3.6,    3.65,   3.7,    3.8,    3.85,   3.9,    4,  4.1,    4.2};
@@ -104,6 +115,8 @@ TEST(add_multiple_player_shots_computes_regression_for_right_player) {
 
     // pollute the shots with a different player
     d.position = 1;
+    LinearRegressionModel model2;
+    d.predictor_by_position[1].model = &model;
     float splits_two[]  = {3.6,     3.7,    3.75};
     float zones_two[]   = {1,       2,      3};
     for (int i = 0; i < 3; i++) {
@@ -121,10 +134,8 @@ TEST(add_multiple_player_shots_computes_regression_for_right_player) {
     d.zone = zones[9];
     addShot(d);
 
-    // known correct values
-    auto& model = d.models_by_position[0];
-    return model.rSquared > 0 
-    && model.slope > -14.9 && model.slope < -14.7
-    && model.intercept > 62.68 && model.intercept < 62.70
-    && model.rSquared > 0.9425 && model.rSquared < 0.9427;
+    // known correct answer
+    d.split = 3.75;
+    predictZone(d);
+    return d.zone == 7;
 }

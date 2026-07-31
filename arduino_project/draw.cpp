@@ -29,7 +29,7 @@ void draw_IDLE(const Stopwatch::Data d) {
     lcd.setCursor(0, 0);
     lcd.write(positions[d.position]);
     lcd.setCursor(8, 0);
-    lcd.write((String(d.models_by_position[d.position].rSquared * 100, 0) + "%").c_str());
+    lcd.write((String(d.predictor_by_position[d.position].confidence * 100, 0) + "%").c_str());
     lcd.setCursor(0, 1);
     lcd.write(String(d.split).c_str());
     if (!d.saveShots) { lcd.setCursor(15, 0); lcd.write("!"); }
@@ -40,7 +40,7 @@ void draw_RUNNING(const Stopwatch::Data d) {
     lcd.setCursor(0, 0);
     lcd.write(positions[d.position]);
     lcd.setCursor(8, 0);
-    lcd.write((String(d.models_by_position[d.position].rSquared * 100, 0) + "%").c_str());
+    lcd.write((String(d.predictor_by_position[d.position].confidence * 100, 0) + "%").c_str());
     lcd.setCursor(0, 1);
     lcd.write(String(d.split).c_str());
     if (!d.saveShots) { lcd.setCursor(15, 0); lcd.write("!"); }
@@ -51,7 +51,7 @@ void draw_ZONE_PREDICT(const Stopwatch::Data d) {
     lcd.setCursor(0, 0);
     lcd.write(positions[d.position]);
     lcd.setCursor(8, 0);
-    lcd.write((String(d.models_by_position[d.position].rSquared * 100, 0) + "%").c_str());
+    lcd.write((String(d.predictor_by_position[d.position].confidence * 100, 0) + "%").c_str());
     lcd.setCursor(0, 1);
     lcd.write(String(d.split).c_str());
     lcd.setCursor(8, 1);
@@ -68,7 +68,7 @@ void draw_SPLIT_PREDICT(const Stopwatch::Data d) {
     lcd.setCursor(0, 0);
     lcd.write(positions[d.position]);
     lcd.setCursor(8, 0);
-    lcd.write((String(d.models_by_position[d.position].rSquared * 100, 0) + "%").c_str());
+    lcd.write((String(d.predictor_by_position[d.position].confidence * 100, 0) + "%").c_str());
     lcd.setCursor(0, 1);
     lcd.write(String(d.split).c_str());
     lcd.setCursor(8, 1);

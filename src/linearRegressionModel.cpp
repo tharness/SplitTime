@@ -1,9 +1,8 @@
-#include "calculations.h"
+#include "linearRegressionModel.h"
 
 namespace Stopwatch {
 
-void linearRegressionLeastSquares(const float* x, const float* y, int count, float& slope, float& intercept, float& rSquared) {
-
+void LinearRegressionModel::buildModelFromData(const float* x, const float* y, int count) {
     if (count <= 1) {
         rSquared = 0;
         return;
@@ -51,6 +50,19 @@ void linearRegressionLeastSquares(const float* x, const float* y, int count, flo
     }
 
     return;
+}
+
+float LinearRegressionModel::predict(float x) {
+    return slope * x + intercept;
+}
+
+float LinearRegressionModel::predictInverse(float y) {
+    if (slope == 0) return 0;
+    return (y - intercept) / slope;
+}
+
+float LinearRegressionModel::getConfidence() {
+    return rSquared;
 }
 
 }

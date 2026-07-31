@@ -1,5 +1,4 @@
 #include "actions.h"
-#include "calculations.h"
 
 namespace Stopwatch {
 
@@ -10,10 +9,10 @@ void incrementPosition(Data& d) { if (++d.position > 3) d.position = 0; }
 void decrementPosition(Data& d) { if (--d.position < 0) d.position = 3; }
 void startTimer(Data& d) { d.startMs = d.nowMs; }
 void predictZone(Data& d) {
-    auto& model = d.models_by_position[d.position];
+    auto& predictor = d.predictor_by_position[d.position];
     // if there is some amount of model fit, interpolated and round
-    if (model.rSquared > 0) {
-        d.zone = (int)((model.slope * d.split + model.intercept) + 0.5);
+    if (predictor.confidence > 0) {
+        d.zone = (int)(predictor.model->predict(d.split) + 0.5);
         //if hog or through, clamp to 0 and 11 respetively
         if (d.zone < 1) d.zone = 0;
         else if (d.zone > 10) d.zone = 11;
@@ -50,8 +49,9 @@ void addShot(Data& d) {
         }
     }
 
-    auto& model = d.models_by_position[d.position];
-    linearRegressionLeastSquares(splits, zones, count, model.slope, model.intercept, model.rSquared);
+    auto& predictor = d.predictor_by_position[d.position];
+    predictor.model->buildModelFromData(splits, zones, count);
+    predictor.confidence = predictor.model->getConfidence();
 }
 void incrementZone(Data& d) { if (++d.zone > 11) d.zone = 0; }
 void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
@@ -61,8 +61,8 @@ void toggleSaveShots(Data& d) { d.saveShots = !d.saveShots; }
 // state entry actions
 void enterIdle(Data& d) { d.split = 0; }
 void enterSplitPredict(Data& d) {
-    auto& model = d.models_by_position[d.position];
-    if (model.rSquared > 0) d.split = ((float)d.zone - model.intercept) / model.slope;
+    auto& predictor = d.predictor_by_position[d.position];
+    if (predictor.confidence > 0) d.split = predictor.model->predictInverse((float)d.zone);
     else d.split = 0;
 }
 void enterRunning(Data& d) {}
