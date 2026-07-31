@@ -23,6 +23,7 @@ int getButton() {
   if (kp_val > KP_RIGHT) return 5;
 }
 
+// draw timing
 const int FPS = 60;
 long lastDrawMs = 0;
 bool isTimeToDraw() {
@@ -30,16 +31,22 @@ bool isTimeToDraw() {
   return millis() - lastDrawMs > MILLIS_PER_FRAME;
 }
 
+// save logic
+int nextShotToSave = 0;
+void saveShot(int shotNumber, Stopwatch::Shot shot) {
+
+}
+
 Stopwatch::Stopwatch s;
 
 void setup() {
-  // put your setup code here, to run once:
   initDraw(FPS);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // feed the clock
   s.tick(millis());
+  // detect input
   int previousButton = currentButton;
   currentButton = getButton();
   if (previousButton != currentButton && currentButton != 0 && currentButton != 5) {
@@ -59,8 +66,15 @@ void loop() {
         break;
     }
     s.handleEvent(e);
+    // save shot if required
+    if (s.getData().saveShots && s.getData().currentShot - 1 == nextShotToSave) {
+      saveShot(nextShotToSave, s.getData().shots[nextShotToSave]);
+      ++nextShotToSave;
+    }
+    // refresh screen
     clear();
   }
+  // draw timing
   if (isTimeToDraw()) {
     lastDrawMs = millis();
     drawState(s.getCurrentState(), s.getData());
