@@ -1,14 +1,11 @@
-all: demo test
+all: test arduino_project
 
 SRCS := $(wildcard src/*.cpp)
-ARD_SRCS := $(wildcard arduino_project/*)
-DEMO_SRCS := main.cpp
+ARD_SRCS := $(wildcard arduino_project/*.cpp)
+ARD_PROJ := $(wildcard arduino_project/*.ino)
+ARD_HDRS := $(wildcard arduino_project/*.h)
 HDRS := $(wildcard include/*.h)
 TEST_SRCS := $(wildcard tests/*.cpp) $(wildcard tests/framework/*)
-
-demo: $(SRCS) $(HDRS) $(DEMO_SRCS)
-	mkdir -p bin
-	g++ -Iinclude $(SRCS) $(DEMO_SRCS) -o bin/demo
 
 test: $(SRCS) $(TEST_SRCS) $(HDRS)
 	mkdir -p bin
@@ -20,6 +17,7 @@ arduino_project: $(SRCS) $(HDRS)
 	cp $(HDRS) arduino_project/SplitTime
 	cp $(ARD_SRCS) arduino_project/SplitTime
 	cp $(ARD_HDRS) arduino_project/SplitTime
+	cp $(ARD_PROJ) arduino_project/SplitTime
 
 clean:
 	rm -f bin/*
