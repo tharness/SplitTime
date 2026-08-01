@@ -14,13 +14,22 @@ const int KP_RIGHT = 0;
 int currentButton = 0;
 
 int getButton() {
+  const int DEBOUNCE_MS = 5;
+  static long lastDebounceTime = 0;
+  static int previousValue = 0;
+  int currentValue = 0;
+
   const int kp_val = analogRead(KP);
-  if (kp_val > KP_NONE) return 0;
-  if (kp_val > KP_SELECT) return 1;
-  if (kp_val > KP_LEFT) return 2;
-  if (kp_val > KP_DOWN) return 3;
-  if (kp_val > KP_UP) return 4;
-  if (kp_val > KP_RIGHT) return 5;
+  if (kp_val > KP_NONE) currentValue = 0;
+  else if (kp_val > KP_SELECT) currentValue = 1;
+  else if (kp_val > KP_LEFT) currentValue = 2;
+  else if (kp_val > KP_DOWN) currentValue = 3;
+  else if (kp_val > KP_UP) currentValue = 4;
+  else if (kp_val > KP_RIGHT) currentValue = 5;
+
+  if (currentValue != previousValue) lastDebounceTime = millis();
+  previousValue = currentValue;
+  if (millis() - lastDebounceTime > DEBOUNCE_MS) return currentValue;
 }
 
 // draw timing
