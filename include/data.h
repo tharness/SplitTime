@@ -15,7 +15,7 @@ struct Shot {
 };
 
 struct Predictor {
-    Model* model;
+    Model* model = nullptr;
     float confidence = 0;
 };
 

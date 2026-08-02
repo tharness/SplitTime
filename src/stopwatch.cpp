@@ -2,14 +2,16 @@
 #include "transitions.h"
 #include "model.h"
 #include "linearRegressionModel.h"
+#include "weightedLinearRegressionModel.h"
 
 namespace Stopwatch {
 
 LinearRegressionModel linModels[4];
+WeightedLinearRegressionModel weightedLinModels[4];
 
 Stopwatch::Stopwatch() : currentState(SAVE_SELECT) { 
     for (int i = 0; i < 4; ++i) {
-        data.predictor_by_position[i].model = &linModels[i];
+        data.predictor_by_position[i].model = &weightedLinModels[i];
     }
 }
 
