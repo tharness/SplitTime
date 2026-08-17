@@ -1,3 +1,4 @@
+#include <EEPROM.h>
 #include "stopwatch.h"
 #include "draw.h"
 
@@ -40,6 +41,14 @@ bool isTimeToDraw() {
   return millis() - lastDrawMs > MILLIS_PER_FRAME;
 }
 
+// EEPROM
+bool initialEraseComplete = false;
+void eraseEEPROM() {
+  for (int i = 0 ; i < EEPROM.length() ; ++i) {
+    EEPROM.write(i, 0);
+  }
+}
+
 // save logic
 int nextShotToSave = 0;
 void saveShot(int shotNumber, Stopwatch::Shot shot) {
@@ -58,6 +67,9 @@ bool serialRecievedDataRequest() {
 void serialSendData() {
   Serial.println("Data 1");
   Serial.println("Data 2");
+  for (int i = 0; i < EEPROM.length(); ++i) {
+    Serial.println(EEPROM[i]);
+  }
 }
 
 Stopwatch::Stopwatch s;
@@ -92,8 +104,10 @@ void loop() {
   }
 
   if (Serial.available()) {
-    if (serialRecievedDataRequest())
+    if (serialRecievedDataRequest()) {
+      e = Stopwatch::NONE;
       serialSendData();
+    }
   }
 
   s.handleEvent(e);
@@ -101,6 +115,14 @@ void loop() {
   if (e != Stopwatch::NONE) {
     // save shot if required
     if (s.getData().saveShots && s.getData().currentShot - 1 == nextShotToSave) {
+      // complete initial EEPROM wipe if required
+      // only required on button press (specifcally YES in startup confirmation menu)
+      // and if we are saving shots
+      // and in theory on currentShot == 0 but it suffices to check the sticky flag every time, BEFORE save
+      if (!initialEraseComplete) {
+        initialEraseComplete = true;
+        eraseEEPROM();
+      }
       saveShot(nextShotToSave, s.getData().shots[nextShotToSave]);
       ++nextShotToSave;
     }
