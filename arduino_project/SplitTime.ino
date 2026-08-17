@@ -46,9 +46,24 @@ void saveShot(int shotNumber, Stopwatch::Shot shot) {
 
 }
 
+bool serialRecievedDataRequest() {
+  String input = Serial.readStringUntil('\n');
+  if (input == "DATA_REQUEST") {
+    Serial.println(input + " RECEIVED");
+    return true;
+  }
+  return false;
+}
+
+void serialSendData() {
+  Serial.println("Data 1");
+  Serial.println("Data 2");
+}
+
 Stopwatch::Stopwatch s;
 
 void setup() {
+  Serial.begin(9600);
   initDraw(FPS);
 }
 
@@ -58,8 +73,8 @@ void loop() {
   // detect input
   int previousButton = currentButton;
   currentButton = getButton();
+  Stopwatch::Event e = Stopwatch::NONE;
   if (previousButton != currentButton && currentButton != 0 && currentButton != 5) {
-    Stopwatch::Event e;
     switch (currentButton) {
       case 1:
         e = Stopwatch::START_STOP;
@@ -74,7 +89,16 @@ void loop() {
         e = Stopwatch::UP;
         break;
     }
-    s.handleEvent(e);
+  }
+
+  if (Serial.available()) {
+    if (serialRecievedDataRequest())
+      serialSendData();
+  }
+
+  s.handleEvent(e);
+
+  if (e != Stopwatch::NONE) {
     // save shot if required
     if (s.getData().saveShots && s.getData().currentShot - 1 == nextShotToSave) {
       saveShot(nextShotToSave, s.getData().shots[nextShotToSave]);
@@ -83,6 +107,8 @@ void loop() {
     // refresh screen
     clear();
   }
+ 
+
   // draw timing
   if (isTimeToDraw()) {
     lastDrawMs = millis();

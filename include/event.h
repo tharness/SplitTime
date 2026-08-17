@@ -7,7 +7,8 @@ enum Event {
     START_STOP,
     MODE,
     UP,
-    DOWN
+    DOWN,
+    NONE
 };
 
 }
