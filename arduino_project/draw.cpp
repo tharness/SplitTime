@@ -22,6 +22,7 @@ void initDraw(int fps) {
 
 void clear() {
   lcd.clear();
+  frame_counter = 0;
 }
 
 void draw_IDLE(const Stopwatch::Data d) {
