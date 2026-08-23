@@ -12,7 +12,7 @@ void predictZone(Data& d) {
     auto& predictor = d.predictor_by_position[d.position];
     // if there is some amount of model fit, interpolated and round
     if (predictor.confidence > 0) {
-        d.zone = (int)(predictor.model->predict(d.split) + 0.5);
+        d.zone = static_cast<int>(predictor.model->predict(d.split) + 0.5f);
         //if hog or through, clamp to 0 and 11 respetively
         if (d.zone < 1) d.zone = 0;
         else if (d.zone > 10) d.zone = 11;
@@ -62,7 +62,7 @@ void toggleSaveShots(Data& d) { d.saveShots = !d.saveShots; }
 void enterIdle(Data& d) { d.split = 0; }
 void enterSplitPredict(Data& d) {
     auto& predictor = d.predictor_by_position[d.position];
-    if (predictor.confidence > 0) d.split = predictor.model->predictInverse((float)d.zone);
+    if (predictor.confidence > 0) d.split = predictor.model->predictInverse(static_cast<float>(d.zone));
     else d.split = 0;
 }
 void enterRunning(Data& d) {}
