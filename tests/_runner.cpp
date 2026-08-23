@@ -13,7 +13,7 @@ int main() {
         }
         else {
             std::cout << "########\n";
-            std::cout << "# FAIL #\t" << test.name << "\n";
+            std::cout << "# FAIL #\t" << test.name << "\t" << test.file << ":" << test.line << "\n";
             std::cout << "########\n";
             ++numFails;
         }

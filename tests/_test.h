@@ -5,21 +5,24 @@
 #include <vector>
 
 struct TestCase {
-    bool (*test)(); 
+    bool (*test)();
     std::string name;
+    const char* file;
+    int line;
 };
 
 extern std::vector<TestCase> tests;
 
 struct TestRegistrar {
-    TestRegistrar(bool (*test)(), const std::string& name) {
-        tests.push_back({test, name});
+    TestRegistrar(bool (*test)(), const std::string& name,
+                  const char* file, int line) {
+        tests.push_back({test, name, file, line});
     }
 };
 
 #define TEST(name) \
     bool name(); \
-    inline TestRegistrar register_##name(name, #name); \
-    bool name() 
+    inline TestRegistrar register_##name(name, #name, __FILE__, __LINE__); \
+    bool name()
 
 #endif // TEST_H
