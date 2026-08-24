@@ -9,8 +9,8 @@ ShotBytes shotToBytes(Shot s) {
     };
     // mask position to 2 bits and shift 6 places to leading 2 bits of byte 1
     bytes.one |= (s.position & 0b11) << 6;
-    // mask zone to 4 bits and shift 1 place to left in byte 1, leaving a gape between position
-    bytes.one |= ((s.zone + 1) & 0b1111) << 1;
+    // mask zone to 4 bits and shift 1 place to left in byte 1, leaving a gap between position
+    bytes.one |= (s.zone & 0b1111) << 1;
     
     // convert float to unsigned fixed point
     unsigned int fixedPointSplit = static_cast<unsigned int>(s.split*100 + 0.5f);

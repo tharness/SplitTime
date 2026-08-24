@@ -3,14 +3,14 @@
 
 using namespace Stopwatch;
 
-TEST(all_zero_shot_correct_bytes) {
+TEST(all_zero_shot_all_zero_bytes) {
     Shot s{
         .position = 0,
         .split = 0,
         .zone = 0
     };
     ShotBytes b = shotToBytes(s);
-    return b.one == 0b00000010 &&
+    return b.one == 0b00000000 &&
         b.two == 0;
 }
 
@@ -21,7 +21,7 @@ TEST(shot_scenario_one) {
         .zone = 8
     };
     ShotBytes b = shotToBytes(s);
-    return b.one == 0b00010011 &&
+    return b.one == 0b00010001 &&
         b.two == 0b01111110;
 }
 
@@ -32,7 +32,7 @@ TEST(shot_scenario_two) {
         .zone = 1
     };
     ShotBytes b = shotToBytes(s);
-    return b.one == 0b01000101 &&
+    return b.one == 0b01000011 &&
         b.two == 0b10100100;
 }
 
@@ -43,7 +43,7 @@ TEST(shot_scenario_three) {
         .zone = 11
     };
     ShotBytes b = shotToBytes(s);
-    return b.one == 0b11011001 &&
+    return b.one == 0b11010111 &&
         b.two == 0b01000011;
 }
 
@@ -51,7 +51,7 @@ TEST(shot_scenario_four) {
     Shot s{
         .position = 3,
         .split = 4.7,
-        .zone = -1
+        .zone = 0
     };
     ShotBytes b = shotToBytes(s);
     return b.one == 0b11000001 &&

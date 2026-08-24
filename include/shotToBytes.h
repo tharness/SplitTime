@@ -13,7 +13,7 @@ split can be treated as fixed point x.yz
 values typlically between 3.30-4.30
 if we assume minimum of 3.00 and 4.27 and offset by 3,
 in fixed point we get values of 0-127 requiring 7 bits
-zone from -1-11 requires 4 bits (offset with 1)
+zone from 0-11 requires 4 bits
 therefore minimum of 13 bits with sacrificed split range
 
 if we do not do an offset, the nearest power of 2 to 430 is 512,
@@ -28,7 +28,7 @@ PP0ZZZZS   SSSSSSSS
 
 where P = position, Z = zone, S = split, 0 = 0
 P range: 0-3
-Z range: 0-12 (+1 offset, therefore 0 represents -1 HOG and 12 is 11 THROUGH)
+Z range: 0-11 (0 represents HOG and 11 is THROUGH)
 S range: 0-512 (fixed point 0.00-5.12)
 
 */ 
@@ -37,7 +37,7 @@ struct ShotBytes {
     unsigned char two;
 };
 
-ShotBytes shotToBytes(Stopwatch::Shot s);
+ShotBytes shotToBytes(Shot s);
 
 }
 
