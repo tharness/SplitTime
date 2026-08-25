@@ -1,6 +1,7 @@
 #include <EEPROM.h>
 #include "stopwatch.h"
 #include "draw.h"
+#include "shotToBytes.h"
 
 // KP Keypad constants
 const int KP = A0; // PIN
@@ -45,14 +46,17 @@ bool isTimeToDraw() {
 bool initialEraseComplete = false;
 void eraseEEPROM() {
   for (int i = 0 ; i < EEPROM.length() ; ++i) {
-    EEPROM.write(i, 0);
+    EEPROM.update(i, 0);
   }
 }
 
 // save logic
-int nextShotToSave = 0;
 void saveShot(int shotNumber, Stopwatch::Shot shot) {
-
+  // convert to encoded bytes
+  // save bytes to EEPROM based on struct size
+  Stopwatch::ShotBytes bytes = Stopwatch::shotToBytes(shot);
+  int address = shotNumber * sizeof(Stopwatch::ShotBytes);
+  EEPROM.put(address, bytes);
 }
 
 bool serialRecievedDataRequest() {
@@ -65,11 +69,20 @@ bool serialRecievedDataRequest() {
 }
 
 void serialSendData() {
-  Serial.println("Data 1");
-  Serial.println("Data 2");
-  for (int i = 0; i < EEPROM.length(); ++i) {
-    Serial.println(EEPROM[i]);
+  Serial.println("DATA_START");
+  int address = 0;
+  Stopwatch::ShotBytes bytes;
+  for (int i = 0; i < (EEPROM.length()/sizeof(Stopwatch::ShotBytes)); ++i) {
+    EEPROM.get(address, bytes);
+    // reached end of recorded data
+    if (bytes.one == 0 && bytes.two == 0)
+      break;
+    address += sizeof(Stopwatch::ShotBytes);
+    Serial.write(bytes.one);
+    Serial.write(bytes.two);
+    Serial.println();
   }
+  Serial.println("DATA_END");
 }
 
 Stopwatch::Stopwatch s;
@@ -112,6 +125,7 @@ void loop() {
 
   s.handleEvent(e);
 
+  static int nextShotToSave = 0;
   if (e != Stopwatch::NONE) {
     // save shot if required
     if (s.getData().saveShots && s.getData().currentShot - 1 == nextShotToSave) {
