@@ -1,3 +1,6 @@
+#ifndef LCD_H
+#define LCD_H
+
 #include "states.h"
 #include "data.h"
 #include "display.h"
@@ -24,3 +27,5 @@ private:
     void draw_SPLIT_PREDICT(const Stopwatch::Data d) override;
     void draw_SAVE_SELECT(const Stopwatch::Data d) override;
 };
+
+#endif // LCD_H
