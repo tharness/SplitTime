@@ -6,7 +6,6 @@
 class LCD : public Display {
 public:
     void clear() override;
-    void drawState(Stopwatch::State s, const Stopwatch::Data& d) override;
     void begin(int fps) override;
 private:
     const int LCD_RS = 8;
@@ -21,9 +20,9 @@ private:
     int frames_per_second = 60;
     int frame_counter = 0;
 
-    void draw_IDLE(const Stopwatch::Data d);
-    void draw_RUNNING(const Stopwatch::Data d);
-    void draw_ZONE_PREDICT(const Stopwatch::Data d);
-    void draw_SPLIT_PREDICT(const Stopwatch::Data d);
-    void draw_SAVE_SELECT(const Stopwatch::Data d);
+    void draw_IDLE(const Stopwatch::Data d) override;
+    void draw_RUNNING(const Stopwatch::Data d) override;
+    void draw_ZONE_PREDICT(const Stopwatch::Data d) override;
+    void draw_SPLIT_PREDICT(const Stopwatch::Data d) override;
+    void draw_SAVE_SELECT(const Stopwatch::Data d) override;
 };
