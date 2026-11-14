@@ -17,8 +17,6 @@ private:
     const int LCD_COLS = 16;
     const int LCD_ROWS = 2;
     LiquidCrystal lcd{LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7};
-    int frames_per_second = 60;
-    int frame_counter = 0;
 
     void draw_IDLE(const Stopwatch::Data d) override;
     void draw_RUNNING(const Stopwatch::Data d) override;
