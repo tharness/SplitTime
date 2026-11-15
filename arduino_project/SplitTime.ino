@@ -35,7 +35,7 @@ int getButton() {
 }
 
 // draw timing
-const int FPS = 60;
+const int FPS = 100;
 long lastDrawMs = 0;
 bool isTimeToDraw() {
   const long MILLIS_PER_FRAME = 1000 / FPS;
