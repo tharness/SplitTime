@@ -1,7 +1,7 @@
 #include "display.h"
 
 void Display::drawState(Stopwatch::State s, const Stopwatch::Data& d) {
-    if (++frame_counter == 2*frames_per_second) frame_counter = 0;
+    ++frame_counter;
     switch (s) {
         case Stopwatch::IDLE:
             draw_IDLE(d);

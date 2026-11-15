@@ -1,5 +1,10 @@
 #include "OLED.h"
 
+void OLED::drawState(Stopwatch::State s, const Stopwatch::Data& d) {
+  currentMs = d.nowMs;
+  Display::drawState(s, d);
+}
+
 void OLED::begin(int fps) {
     frames_per_second = fps;
     oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -11,6 +16,7 @@ void OLED::begin(int fps) {
 void OLED::clear() {
     oled.clearDisplay();
     frame_counter = 0;
+    stateStartMs = currentMs;
 }
 
 void OLED::drawPlayer(int pos) {
@@ -28,6 +34,81 @@ void OLED::drawPlayer(int pos) {
   else if (pos == 3) {
     printTextRightJustified(PLAYERS[pos], 1, OLED_WIDTH, 0);
   }
+}
+
+void OLED::drawNoSaveIcon(int save, int pos) {
+  if (!save)
+    if (pos == 0 || pos == 1)
+      printTextRightJustified("!", 1, OLED_WIDTH, 0);
+    else
+      printText("!", 1, 0, 0);
+}
+
+void OLED::drawSplit(float split) {
+    String s = String(split, 2);
+    const char* text = s.c_str();
+    int x, y;
+    getTextCenter(text, 3, OLED_WIDTH / 2, OLED_HEIGHT / 2, &x, &y);
+    printText(text, 3, x, y);
+}
+
+void OLED::drawConfidence(float conf, bool right = true) {
+    String s = String(conf * 100, 0) + "%";
+    const char* text = s.c_str();
+    int y;
+    getTextCenter(text, 1, 0, OLED_HEIGHT / 2, nullptr, &y);
+    if (right)
+      printTextRightJustified(text, 1, OLED_WIDTH, y);
+    else
+     printText(text, 1, 0, y);
+}
+
+void OLED::drawZone(int zone) {
+    String s;
+    if (zone == -1) s = "_";
+    else if (zone == 0) s = "HOG";
+    else if (zone == 11) s = "THROUGH";
+    else s = String(zone);
+    const char* text = s.c_str();
+    int x;
+    getTextCenter(text, 2, OLED_WIDTH / 2, 0, &x, nullptr);
+    printTextBottomJustified(text, 2, x, OLED_HEIGHT);
+}
+
+void OLED::printText(const char* text, int size, int x, int y) {
+  oled.setTextSize(size);
+  oled.setCursor(x, y);
+  oled.print(text);
+}
+
+void OLED::getTextCenter(const char* text, int size, int x, int y, int* outX, int* outY) {
+  oled.setTextSize(size);
+  int w, h;
+  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
+  if (outX) *outX = x - w / 2;
+  if (outY) *outY = y - h / 2;
+}
+
+void OLED::printTextRightJustified(const char* text, int size, int x, int y) {
+  oled.setTextSize(size);
+  int w, h;
+  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
+  int textX = x - w;
+  oled.setCursor(textX, y);
+  oled.print(text);
+}
+
+void OLED::printTextBottomJustified(const char* text, int size, int x, int y) {
+  oled.setTextSize(size);
+  int w, h;
+  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
+  int textY = y - h;
+  oled.setCursor(x, textY);
+  oled.print(text);
+}
+
+bool OLED::cursorOn() {
+    return ((currentMs - stateStartMs) % 2000) < 1000;
 }
 
 void OLED::drawStopWatchIcon() {
@@ -71,100 +152,52 @@ void OLED::drawZoneIcon() {
 void OLED::draw_IDLE(const Stopwatch::Data d) {
     drawPlayer(d.position);
     drawStopWatchIcon();
-
-    // shots being saved
-    // if (!d.saveShots) { lcd.setCursor(15, 0); lcd.write("!"); }
-
-    String s = String(d.split, 2);
-    const char* text = s.c_str();
-    int x, y;
-    getTextCenter(text, 3, OLED_WIDTH / 2, OLED_HEIGHT / 2, &x, &y);
-    printText(text, 3, x, y);
-
-    s = String(d.predictor_by_position[d.position].confidence * 100, 0) + "%";
-    text = s.c_str();
-    getTextCenter(text, 1, 0, OLED_HEIGHT / 2, nullptr, &y);
-    printTextRightJustified(text, 1, OLED_WIDTH, y);
-
+    drawNoSaveIcon(d.saveShots, d.position);
+    drawSplit(d.split);
+    drawConfidence(d.predictor_by_position[d.position].confidence);
     oled.display();
 }
 
 void OLED::draw_RUNNING(const Stopwatch::Data d) {
-    clear();
+    oled.clearDisplay();
     drawPlayer(d.position);
     drawStopWatchIcon();
-
-    // shots being saved
-    // if (!d.saveShots) { lcd.setCursor(15, 0); lcd.write("!"); }
-
-    String s = String(d.split, 2);
-    const char* text = s.c_str();
-    int x, y;
-    getTextCenter(text, 3, OLED_WIDTH / 2, OLED_HEIGHT / 2, &x, &y);
-    printText(text, 3, x, y);
-
+    drawNoSaveIcon(d.saveShots, d.position);
+    drawSplit(d.split);
+    drawConfidence(d.predictor_by_position[d.position].confidence);
     oled.display();
 }
 
 void OLED::draw_ZONE_PREDICT(const Stopwatch::Data d) {
+    oled.clearDisplay();
     drawPlayer(d.position);
     drawStopWatchIcon();
-
-    // shots being saved
-    // if (!d.saveShots) { lcd.setCursor(15, 0); lcd.write("!"); }
-
-    String s = String(d.split, 2);
-    const char* text = s.c_str();
-    int x, y;
-    getTextCenter(text, 3, OLED_WIDTH / 2, OLED_HEIGHT / 2, &x, &y);
-    printText(text, 3, x, y);
-
-    s = String(d.predictor_by_position[d.position].confidence * 100, 0) + "%";
-    text = s.c_str();
-    getTextCenter(text, 1, 0, OLED_HEIGHT / 2, nullptr, &y);
-    printTextRightJustified(text, 1, OLED_WIDTH, y);
-
-    if (d.zone == -1) s = "_";
-    else if (d.zone == 0) s = "HOG";
-    else if (d.zone == 11) s = "THROUGH";
-    else s = String(d.zone);
-    text = s.c_str();
-    getTextCenter(text, 2, OLED_WIDTH / 2, 0, &x, nullptr);
-    printTextBottomJustified(text, 2, x, OLED_HEIGHT);
-
-    printTextBottomJustified(">", 2, 0, OLED_HEIGHT);
-
+    drawNoSaveIcon(d.saveShots, d.position);
+    drawSplit(d.split);
+    drawConfidence(d.predictor_by_position[d.position].confidence);
+    drawZone(d.zone);
+    if (cursorOn())
+      printTextBottomJustified(">", 2, 0, OLED_HEIGHT);
     oled.display();
 }
 
 void OLED::draw_SPLIT_PREDICT(const Stopwatch::Data d) {
+    oled.clearDisplay();
     drawPlayer(d.position);
     drawZoneIcon();
-
-    // shots being saved
-    // if (!d.saveShots) { lcd.setCursor(15, 0); lcd.write("!"); }
-
-    String s = String(d.split, 2);
-    const char* text = s.c_str();
-    int x, y;
-    getTextCenter(text, 3, OLED_WIDTH / 2, OLED_HEIGHT / 2, &x, &y);
-    printText(text, 3, x, y);
-
-    s = String(d.predictor_by_position[d.position].confidence * 100, 0) + "%";
-    text = s.c_str();
-    getTextCenter(text, 1, 0, OLED_HEIGHT / 2, nullptr, &y);
-    printText(text, 1, 0, y);
-
-    s = String(d.zone);
-    text = s.c_str();
-    printTextBottomJustified(text, 2, OLED_WIDTH / 2, OLED_HEIGHT);
-
-    printTextBottomJustified(">", 2, 0, OLED_HEIGHT);
-
+    drawNoSaveIcon(d.saveShots, d.position);
+    drawSplit(d.split);
+    drawConfidence(d.predictor_by_position[d.position].confidence, false);
+    drawZone(d.zone);
+    if (cursorOn())
+      printTextBottomJustified(">", 2, 0, OLED_HEIGHT);
     oled.display();
 }
 
 void OLED::draw_SAVE_SELECT(const Stopwatch::Data d) {
+    oled.clearDisplay();
+    drawNoSaveIcon(d.saveShots, d.position);
+
     int refX = OLED_WIDTH / 2;
     int refY = OLED_HEIGHT / 3;
     int x, y;
@@ -179,39 +212,8 @@ void OLED::draw_SAVE_SELECT(const Stopwatch::Data d) {
       printText("No", 2, x, y);
     }
     getTextCenter(">", 2, refX, refY*2, &x, &y);
-    printText(">", 2, 0, y);
+    if (cursorOn())
+      printText(">", 2, 0, y);
     
     oled.display();
-}
-
-void OLED::printText(const char* text, int size, int x, int y) {
-  oled.setTextSize(size);
-  oled.setCursor(x, y);
-  oled.print(text);
-}
-
-void OLED::getTextCenter(const char* text, int size, int x, int y, int* outX, int* outY) {
-  oled.setTextSize(size);
-  int w, h;
-  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
-  if (outX) *outX = x - w / 2;
-  if (outY) *outY = y - h / 2;
-}
-
-void OLED::printTextRightJustified(const char* text, int size, int x, int y) {
-  oled.setTextSize(size);
-  int w, h;
-  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
-  int textX = x - w;
-  oled.setCursor(textX, y);
-  oled.print(text);
-}
-
-void OLED::printTextBottomJustified(const char* text, int size, int x, int y) {
-  oled.setTextSize(size);
-  int w, h;
-  oled.getTextBounds(text, 0, 0, NULL, NULL, &w, &h);
-  int textY = y - h;
-  oled.setCursor(x, textY);
-  oled.print(text);
 }
