@@ -55,6 +55,8 @@ void addShot(Data& d) {
 }
 void incrementZone(Data& d) { if (++d.zone > 11) d.zone = 0; }
 void decrementZone(Data& d) { if (--d.zone < 0) d.zone = 11; }
+void incrementZoneBounded(Data& d) { if (++d.zone > 10) d.zone = 1; }
+void decrementZoneBounded(Data& d) { if (--d.zone < 1) d.zone = 10; }
 void setZoneToSeven(Data& d) { d.zone = 7; }
 void toggleSaveShots(Data& d) { d.saveShots = !d.saveShots; }
 

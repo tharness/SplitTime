@@ -15,6 +15,8 @@ void predictZone(Data& d);
 void addShot(Data& d);
 void incrementZone(Data& d);
 void decrementZone(Data& d);
+void incrementZoneBounded(Data& d);
+void decrementZoneBounded(Data& d);
 void setZoneToSeven(Data& d);
 void toggleSaveShots(Data& d);
 
