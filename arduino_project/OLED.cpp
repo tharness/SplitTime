@@ -119,7 +119,7 @@ void OLED::draw_ZONE_PREDICT(const Stopwatch::Data d) {
     getTextCenter(text, 3, OLED_WIDTH / 2, OLED_HEIGHT / 2, &x, &y);
     printText(text, 3, x, y);
 
-    s = String(d.predictor_by_position[d.position].confidence * 100, 0) + "%" + !d.saveShots;
+    s = String(d.predictor_by_position[d.position].confidence * 100, 0) + "%";
     text = s.c_str();
     getTextCenter(text, 1, 0, OLED_HEIGHT / 2, nullptr, &y);
     printTextRightJustified(text, 1, OLED_WIDTH, y);
