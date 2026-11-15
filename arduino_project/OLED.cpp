@@ -126,7 +126,7 @@ void OLED::drawStopWatchIcon() {
   oled.drawLine(x, y, x + radius - 4, y - radius + 2, SSD1306_WHITE);
 }
 
-void OLED::drawZoneIcon() {
+void OLED::drawZoneIcon(int zone) {
   int iceWidth = 17;
   int iceLeft = OLED_WIDTH - iceWidth;
   int iceRight = OLED_WIDTH - 1;
@@ -147,6 +147,24 @@ void OLED::drawZoneIcon() {
   oled.fillCircle(houseCenterX, houseCenterY, radius / 2, SSD1306_WHITE);
   oled.fillCircle(houseCenterX, houseCenterY, radius / 4, SSD1306_BLACK);
   oled.fillCircle(houseCenterX, houseCenterY, radius / 8, SSD1306_WHITE);
+
+  const int houseTopY = houseCenterY - radius;
+  const int houseBottomY = houseCenterY + radius;
+  const int hogLineY = 20;
+  const int highGuardY = hogLineY + 6;
+  const int tightGuardY = houseTopY - 3;
+  const int topZoneY = houseTopY + 3;
+  int rockCenterY;
+
+  if (zone <= 3) {
+    rockCenterY = highGuardY + ((tightGuardY - highGuardY) * (zone - 1) + 1) / 2;
+  } else if (zone <= 7) {
+    rockCenterY = topZoneY + (houseCenterY - topZoneY) * (zone - 4) / 3;
+  } else {
+    rockCenterY = houseCenterY + (houseBottomY - houseCenterY) * (zone - 7) / 3;
+  }
+
+  printText("*", 1, OLED_WIDTH - iceWidth - 7, rockCenterY - 4);
 }
 
 void OLED::draw_IDLE(const Stopwatch::Data d) {
@@ -184,7 +202,7 @@ void OLED::draw_ZONE_PREDICT(const Stopwatch::Data d) {
 void OLED::draw_SPLIT_PREDICT(const Stopwatch::Data d) {
     oled.clearDisplay();
     drawPlayer(d.position);
-    drawZoneIcon();
+    drawZoneIcon(d.zone);
     drawNoSaveIcon(d.saveShots, d.position);
     drawSplit(d.split);
     drawConfidence(d.predictor_by_position[d.position].confidence, false);

@@ -32,7 +32,7 @@ private:
 
     void drawPlayer(int pos);
     void drawStopWatchIcon();
-    void drawZoneIcon();
+    void drawZoneIcon(int zone);
     void drawNoSaveIcon(int save, int pos);
     void drawSplit(float split);
     void drawConfidence(float conf, bool right);
